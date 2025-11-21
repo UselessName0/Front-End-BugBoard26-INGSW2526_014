@@ -1,6 +1,7 @@
-package org.example.bugboard26frontend.entita.entita;
+package org.example.bugboard26frontend.Entita;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;

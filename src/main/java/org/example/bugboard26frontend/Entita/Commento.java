@@ -1,6 +1,6 @@
-package org.example.bugboard26frontend.entita.entita;
+package org.example.bugboard26frontend.Entita;
 
-public class Utente {
+public class Commento {
 
     //ATTRIBUTI
     private Long id;
@@ -10,11 +10,10 @@ public class Utente {
     int mipiace;
 
     //COSTRUTTORI
-    public Utente() {};
+    public Commento() {};
 
     //METODI
     //Getter&Setter
-
     public Long getId() {
         return id;
     }

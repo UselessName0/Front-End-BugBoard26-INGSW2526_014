@@ -1,0 +1,44 @@
+/* Container principale* /
+.main-container {
+    -fx-background-color: #0f172a;
+}
+
+/* Stile dei campi di input */
+.input-field {
+    -fx-background-color: #1e293b;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #64748b;
+    -fx-background-radius: 5;
+    -fx-border-color: #334155;
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+}
+
+.input-field:focused {
+    -fx-border-color: #3b82f6; /* Blu quando clicchi */
+}
+
+/* Etichette piccole sopra i campi */
+.label-small {
+    -fx-text-fill: #cbd5e1;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+}
+
+/* Bottone Blu */
+.primary-button {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #1d4ed8; /* Più scuro al passaggio del mouse */
+}
+
+.primary-button:pressed {
+    -fx-background-color: #1e40af;
+}
