@@ -1,5 +1,6 @@
 package org.example.bugboard26frontend.Entita;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URI;
@@ -7,6 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ApiService {
@@ -40,6 +42,25 @@ public class ApiService {
             return mapper.readValue(response.body(), Utente.class);
         } else {
             throw new RuntimeException("Login fallito: " + response.body());
+        }
+    }
+
+    // Chiamata API per caricamento della tabella centrale della dashboard
+    public List<Issue>  getTutteLeIssue() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL + "/issues"))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            String jsonRicevuto = response.body();
+
+            return mapper.readValue(jsonRicevuto, new TypeReference<List<Issue>>(){});
+        } else {
+            throw new RuntimeException("Errore nel caricamento delle issue. Codice: " + response.statusCode());
         }
     }
 }

@@ -12,11 +12,11 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         // 1. Carichiamo il file FXML
         // NOTA: Abbiamo aggiunto "GUI/" perché il file ora è in quella sottocartella nelle risorse
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/login-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/dashboard-view.fxml"));
 
         // 2. Creiamo la scena
         // 400x500 sono dimensioni standard per un box di login verticale
-        Scene scene = new Scene(fxmlLoader.load(), 400, 500);
+        Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
 
         // 3. Impostiamo il titolo e mostriamo la finestra
         stage.setTitle("BugBoard 26 - Login");
@@ -26,7 +26,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        // Questo metodo lancia l'applicazione JavaFX
         launch();
     }
 }

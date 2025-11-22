@@ -1,0 +1,117 @@
+package org.example.bugboard26frontend.GUI;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import org.example.bugboard26frontend.Entita.ApiService;
+import org.example.bugboard26frontend.Entita.Issue;
+import org.example.bugboard26frontend.Entita.Utente;
+import java.util.ArrayList;
+import java.util.List;
+
+public class DashboardController {
+
+    @FXML
+    private TableView<Issue> tabellaIssue;
+
+    @FXML
+    private TableColumn<Issue, String> colTitolo;
+    @FXML
+    private TableColumn<Issue, String> colAutore;
+    @FXML
+    private TableColumn<Issue, String> colPriorita;
+    @FXML
+    private TableColumn<Issue, String> colStato;
+    @FXML
+    private TableColumn<Issue, String> colTipo;
+    @FXML
+    private TableColumn<Issue, String> colData;
+
+    private final ApiService apiService = new ApiService();
+
+    @FXML
+    public void initialize() {
+        // Configurazione colonne
+        colTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
+        colPriorita.setCellValueFactory(new PropertyValueFactory<>("priorita"));
+        colStato.setCellValueFactory(new PropertyValueFactory<>("stato"));
+        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
+        colData.setCellValueFactory(new PropertyValueFactory<>("dataCreazione"));
+        // Se autore è null perchè magari gli è stata tolta l'assegnazione (rimane comunque aperta ?)
+        colAutore.setCellValueFactory(cellData -> {
+            if (cellData.getValue().getAssegnatario() != null) {
+                return new SimpleStringProperty(cellData.getValue().getAssegnatario().getEmail()); // O getNome()
+            } else {
+                return new SimpleStringProperty("---");
+            }
+        });
+        colPriorita.setCellFactory(column -> new TableCell<Issue, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                    setStyle("");
+                    setGraphic(null);
+                } else {
+                    Label badge = new Label(item);
+                    String baseStyle = "-fx-text-fill: #000000; -fx-font-weight: bold; -fx-padding: 3 10 3 10; -fx-background-radius: 5;";
+
+                    switch (item.toUpperCase()) {
+                        case "HIGH": badge.setStyle(baseStyle + "-fx-background-color: #ef4444;"); break; // Rosso
+                        case "MEDIUM": badge.setStyle(baseStyle + "-fx-background-color: #f59e0b; -fx-text-fill: #000000;"); break; // Giallo
+                        case "LOW": badge.setStyle(baseStyle + "-fx-background-color: #10b981;"); break; // Verde
+                        default: badge.setStyle(baseStyle + "-fx-background-color: #64748b;");
+                    }
+
+                    HBox box = new HBox(badge);
+                    box.setAlignment(Pos.CENTER);
+                    setGraphic(box);
+                    setText(null);
+                }
+            }
+        });
+
+        // Carichiamo i dati finti per ora
+        caricaDatiFinti();
+    }
+
+    private void caricaDatiFinti() {
+        List<Issue> listaFinta = new ArrayList<>();
+        Utente u1 = new Utente(); u1.setEmail("mario.rossi@dev.it");
+        Utente u2 = new Utente(); u2.setEmail("luigi.verdi@design.it");
+        Utente u3 = new Utente(); u3.setEmail("admin@bugboard.com");
+
+        listaFinta.add(creaIssue(1L, "Login non funzionante", "BUG", "HIGH", "TO DO", "2025-10-05", null));
+        listaFinta.add(creaIssue(2L, "Aggiornare colori sidebar", "FEATURE", "LOW", "IN_PROGRESS", "2025-10-06", null));
+        listaFinta.add(creaIssue(3L, "Errore esportazione PDF", "BUG", "MEDIUM", "TO DO", "2025-10-08", null));
+        listaFinta.add(creaIssue(4L, "Manca documentazione API", "DOCUMENTATION", "HIGH", "DONE", "2025-10-01", null));
+        listaFinta.add(creaIssue(5L, "Crash con immagini > 5MB", "BUG", "HIGH", "TO DO", "2025-10-09", null));
+
+        Utente uTest = new Utente(); uTest.setEmail("admin@test.com");
+        listaFinta.add(creaIssue(6L, "Esempio con autore", "QUESTION", "LOW", "DONE", "2025-09-25", uTest));
+
+        ObservableList<Issue> datiGrafici = FXCollections.observableArrayList(listaFinta);
+        tabellaIssue.setItems(datiGrafici);
+    }
+
+    private Issue creaIssue(Long id, String titolo, String tipo, String priorita, String stato, String data, Utente autore) {
+        Issue i = new Issue();
+        i.setId(id);
+        i.setTitolo(titolo);
+        i.setTipo(tipo);
+        i.setPriorita(priorita);
+        i.setStato(stato);
+        i.setDataCreazione(data);
+        i.setAssegnatario(autore);
+        return i;
+    }
+}

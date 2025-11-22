@@ -11,7 +11,7 @@ public class Issue {
     private String priorita;
     private String tipo;
     private String stato;
-    private LocalDateTime dataCreazione;
+    private String dataCreazione;
     private Utente utente;
     private Utente assegnatario;
 
@@ -44,7 +44,7 @@ public class Issue {
         return stato;
     }
 
-    public LocalDateTime getDataCreazione() {
+    public String getDataCreazione() {
         return dataCreazione;
     }
 
@@ -80,7 +80,7 @@ public class Issue {
         this.stato = stato;
     }
 
-    public void setDataCreazione(LocalDateTime dataCreazione) {
+    public void setDataCreazione(String dataCreazione) {
         this.dataCreazione = dataCreazione;
     }
 
