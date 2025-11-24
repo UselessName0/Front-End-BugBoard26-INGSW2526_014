@@ -124,7 +124,6 @@ public class DashboardController {
             stage.setResizable(true);
             stage.setMinWidth(1024);
             stage.setMinHeight(768);
-            stage.show();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Errore nell'apertura della schermata Crea Issue: " + e.getMessage());

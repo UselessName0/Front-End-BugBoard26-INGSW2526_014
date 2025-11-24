@@ -54,7 +54,6 @@ public class LoginController {
         stage.setResizable(true);
         stage.setMinWidth(1024);
         stage.setMinHeight(768);
-        stage.show();
     }
 
     // Metodo che mostra errore nel caso di login non andato a buon fine

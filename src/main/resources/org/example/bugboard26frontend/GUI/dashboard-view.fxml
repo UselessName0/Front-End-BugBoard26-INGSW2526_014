@@ -6,8 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane styleClass="main-container" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.12"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.DashboardController">
+<BorderPane styleClass="main-container" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.DashboardController">
 
     <!-- TOP BAR-->
     <top>
@@ -47,13 +46,13 @@
                  <items>
                      <FXCollections fx:factory="observableArrayList">
                          <String fx:value="Issue" />
-                         <String fx:value="Question" />
+                         <String fx:value="Utente" />
                      </FXCollections>
                  </items>
              </ComboBox>
 
             <!-- Barra Ricerca -->
-            <HBox alignment="CENTER_LEFT" prefWidth="400" styleClass="search-box-container">
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="411.0" styleClass="search-box-container">
 
                 <TextField promptText="Cerca..." styleClass="search-field" HBox.hgrow="ALWAYS" />
                 <Button styleClass="search-button" text="Cerca" />
@@ -62,7 +61,7 @@
             <Region HBox.hgrow="ALWAYS" />
 
             <!-- Bottone Create -->
-            <Button styleClass="btn-create" text="+ Crea Issue" onAction="#apriCreaIssue" />
+            <Button onAction="#apriCreaIssue" styleClass="btn-create" text="+ Crea Issue" />
 
             <!-- Avatar -->
             <Label fx:id="labelNomeUtente" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 0 0 0 10; -fx-font-weight: bold;" text="👤 Utente" />
