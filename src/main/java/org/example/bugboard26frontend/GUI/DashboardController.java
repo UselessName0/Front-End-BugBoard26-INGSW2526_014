@@ -63,7 +63,7 @@ public class DashboardController {
                     String baseStyle = "-fx-text-fill: #000000; -fx-font-weight: bold; -fx-padding: 3 10 3 10; -fx-background-radius: 5;";
                     switch (item.toUpperCase()) {
                         case "HIGH": badge.setStyle(baseStyle + "-fx-background-color: #ef4444;"); break; // Rosso
-                        case "MEDIUM": badge.setStyle(baseStyle + "-fx-background-color: #f59e0b; -fx-text-fill: #000000;"); break; // Giallo
+                        case "MEDIUM": badge.setStyle(baseStyle + "-fx-background-color: #f59e0b; -fx-text-fill: #000000;"); break;
                         case "LOW": badge.setStyle(baseStyle + "-fx-background-color: #10b981;"); break; // Verde
                         default: badge.setStyle(baseStyle + "-fx-background-color: #64748b;");
                     }
