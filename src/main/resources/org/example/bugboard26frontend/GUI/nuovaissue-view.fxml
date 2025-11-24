@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" spacing="20" styleClass="main-container" stylesheets="@style.css"
+<VBox alignment="TOP_CENTER" spacing="20" styleClass="main-container" stylesheets="@StyleGeneric.css"
       xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.bugboard26frontend.GUI.NuovaIssueController">
 

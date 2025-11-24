@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 <!-- Il VBox è un contenitore che impila gli elementi verticalmente -->
-<VBox alignment="CENTER" spacing="20.0" styleClass="main-container" stylesheets="@style.css"
+<VBox alignment="CENTER" spacing="20.0" styleClass="main-container" stylesheets="@StyleGeneric.css"
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17"
       fx:controller="org.example.bugboard26frontend.GUI.LoginController">
 

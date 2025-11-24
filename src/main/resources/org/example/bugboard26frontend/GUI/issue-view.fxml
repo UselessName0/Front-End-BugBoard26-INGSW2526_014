@@ -1,8 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<BorderPane styleClass="main-container" stylesheets="@style.css"
-            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.IssueController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="main-container" stylesheets="@StyleIssueDetail.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.IssueController">
 
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15" styleClass="top-bar">
+            <padding><Insets bottom="10" left="20" right="20" top="10" /></padding>
+
+            <Label styleClass="logo-text" text="BugBoard 26" />
+
+            <Region HBox.hgrow="ALWAYS" />
+            <Button onAction="#tornaIndietro" styleClass="btn-back" text="Indietro" />
+
+            <Label fx:id="labelNomeUtente" style="-fx-text-fill: white; -fx-font-weight: bold;" text="👤 Utente" />
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="scroller">
+            <content>
+                <HBox alignment="TOP_CENTER" spacing="25" styleClass="content-padding">
+
+                    <VBox spacing="25" HBox.hgrow="ALWAYS">
+
+                        <VBox spacing="15" styleClass="card">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Circle fill="#475569" radius="15" />
+                                <VBox>
+                                    <Label style="-fx-text-fill: white; -fx-font-weight: bold;" text="User 1" />
+                                    <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" text="on: 05/10/25 (11.40)" />
+                                </VBox>
+                            </HBox>
+
+                            <Label fx:id="labelTitolo" styleClass="issue-title" text="Il sistema genera un errore codice #501250" wrapText="true" />
+
+                            <Label fx:id="labelDescrizione" styleClass="issue-desc" text="Descrizione issue placeholder. Quando si tenta di caricare un file con più di 10000 righe il sistema va in crash..." wrapText="true" />
+
+                            <StackPane styleClass="image-area">
+                                <Label text="[Area Immagine Allegata]" textFill="#64748b" />
+                            </StackPane>
+                        </VBox>
+
+                        <VBox spacing="15">
+                            <Label styleClass="section-title" text="Commenti" />
+
+                            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" prefHeight="250.0" style="-fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0;">
+                                <content>
+                                    <VBox fx:id="commentsContainer" spacing="10" style="-fx-background-color: transparent;">
+                                        <padding>
+                                            <Insets right="10" />
+                                        </padding>
+
+                                        <VBox styleClass="comment-box">
+                                            <Label style="-fx-text-fill: #3b82f6; -fx-font-weight: bold;" text="Dev Team:" />
+                                            <Label style="-fx-text-fill: #cbd5e1;" text="Stiamo indagando. Sembra un problema di memoria Java Heap." wrapText="true" />
+                                        </VBox>
+
+                                        <VBox styleClass="comment-box">
+                                            <Label style="-fx-text-fill: #3b82f6; -fx-font-weight: bold;" text="User 1:" />
+                                            <Label style="-fx-text-fill: #cbd5e1;" text="Grazie, attendo aggiornamenti. Ho notato che succede solo con i PDF." wrapText="true" />
+                                        </VBox>
+
+                                        <VBox styleClass="comment-box">
+                                            <Label style="-fx-text-fill: #3b82f6; -fx-font-weight: bold;" text="Dev Team:" />
+                                            <Label style="-fx-text-fill: #cbd5e1;" text="Ricevuto. Stiamo controllando il parser PDF." wrapText="true" />
+                                        </VBox>
+                                    </VBox>
+                                </content>
+                            </ScrollPane>
+
+                            <VBox spacing="10">
+                                <TextArea prefHeight="80" promptText="Scrivi un commento..." styleClass="dark-input" wrapText="true" />
+                                <Button styleClass="btn-green" text="Invia Commento" />
+                            </VBox>
+                        </VBox>
+                    </VBox>
+
+                    <VBox minWidth="300" prefHeight="655.0" prefWidth="300" spacing="20">
+
+                        <VBox spacing="20" styleClass="card">
+
+                            <VBox spacing="5">
+                                <Label styleClass="meta-label" text="Priorità:" />
+                                <Label fx:id="badgePriorita" maxWidth="Infinity" styleClass="badge, badge-red" text="HIGH" />
+                            </VBox>
+
+                            <VBox spacing="5">
+                                <Label styleClass="meta-label" text="Tipologia Issue:" />
+                                <Label fx:id="badgeTipo" maxWidth="Infinity" styleClass="badge, badge-purple" text="BUG" />
+                            </VBox>
+
+                            <VBox spacing="5">
+                                <Label styleClass="meta-label" text="Assegnazione:" />
+                                <Label maxWidth="Infinity" styleClass="readonly-field" text="Non ancora assegnato" />
+                            </VBox>
+
+                            <Separator style="-fx-opacity: 0.1; -fx-background-color: white;" />
+
+                            <VBox spacing="10">
+                                <Button maxWidth="Infinity" styleClass="btn-blue" text="Assegna a me" />
+                                <Button maxWidth="Infinity" styleClass="btn-outline-red" text="Archivia Issue" />
+                            </VBox>
+
+                        </VBox>
+                    </VBox>
+
+                </HBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+    <left>
+        <VBox spacing="0" styleClass="sidebar">
+            <padding><Insets top="20" /></padding>
+
+            <Button maxWidth="Infinity" styleClass="sidebar-btn, active" text="≡  Lista Issue" />
+            <Button maxWidth="Infinity" styleClass="sidebar-btn" text="≡ Le mie Issue" />
+
+            <Region VBox.vgrow="ALWAYS" />
+            <Region minWidth="200" />
+
+            <Button maxWidth="Infinity" styleClass="sidebar-btn" text="⚙  Impostazioni" />
+            <Button maxWidth="Infinity" styleClass="sidebar-btn" text="💬  Aiuto" />
+        </VBox>
+    </left>
 </BorderPane>

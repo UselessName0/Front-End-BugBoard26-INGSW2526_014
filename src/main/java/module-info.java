@@ -16,6 +16,7 @@ module org.example.bugboard26frontend {
     // Librerie per la connessione Backend (HTTP e JSON)
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
+    requires java.desktop;
 
     // --- PERMESSI (EXPORTS e OPENS) ---
 

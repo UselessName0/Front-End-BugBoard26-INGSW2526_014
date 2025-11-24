@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -19,6 +20,9 @@ import org.example.bugboard26frontend.Entita.ApiService;
 import org.example.bugboard26frontend.Entita.Issue;
 import org.example.bugboard26frontend.Entita.Utente;
 import org.example.bugboard26frontend.Main;
+
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +78,14 @@ public class DashboardController {
                 }
             }
         });
+        tabellaIssue.setOnMouseClicked(event -> {
+            // Se fai doppio click E hai selezionato qualcosa
+            if (event.getClickCount() == 2 && tabellaIssue.getSelectionModel().getSelectedItem() != null) {
+                Issue issueSelezionata = tabellaIssue.getSelectionModel().getSelectedItem();
+                // Apri la pagina di dettaglio
+                apriDettaglioIssue(issueSelezionata);
+            }
+        });
 
         // Carichiamo i dati finti per ora
         caricaDatiFinti();
@@ -127,6 +139,34 @@ public class DashboardController {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Errore nell'apertura della schermata Crea Issue: " + e.getMessage());
+        }
+    }
+
+    // --- METODO PER APRIRE LA NUOVA PAGINA ---
+    public void apriDettaglioIssue(Issue issueSelezionata) {
+        try {
+            // Carica il file FXML che abbiamo appena rifatto uguale al mockup
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/issue-view.fxml"));
+            Parent root = fxmlLoader.load();
+
+            // Passa i dati al controller della pagina di dettaglio
+            IssueController controller = fxmlLoader.getController();
+            controller.setDatiIssue(issueSelezionata);
+
+            // Cambia la scena
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Dettaglio Issue #" + issueSelezionata.getId());
+            stage.setWidth(1280);
+            stage.setHeight(720);
+            stage.centerOnScreen();
+            stage.setResizable(true);
+            stage.setMinWidth(1024);
+            stage.setMinHeight(768);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Errore apertura dettaglio: " + e.getMessage());
         }
     }
 }

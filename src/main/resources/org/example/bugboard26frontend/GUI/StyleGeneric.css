@@ -26,7 +26,7 @@
 
 /* --- SIDEBAR --- */
 .sidebar {
-    -fx-background-color: #333333; /* Grigio scuro */
+    -fx-background-color: #333333;
     -fx-pref-width: 200;
 }
 
