@@ -1,0 +1,183 @@
+/* ========================
+   STRUTTURA GENERALE
+   ======================== */
+.main-container {
+    -fx-background-color: #0f172a; /* Blu scuro sfondo */
+}
+
+/* ScrollPane trasparente per non vedere bordi grigi */
+.scroller {
+    -fx-background-color: transparent;
+    -fx-background: #0f172a;
+}
+.scroller .viewport {
+    -fx-background-color: transparent;
+}
+.content-padding {
+    -fx-padding: 30; /* Spazio intorno al contenuto centrale */
+}
+
+/* ========================
+   TOP BAR & SIDEBAR
+   ======================== */
+.top-bar {
+    -fx-background-color: #2563eb; /* Blu elettrico */
+}
+.logo-text {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
+
+.sidebar {
+    -fx-background-color: #0f172a;
+    -fx-border-color: transparent #1e293b transparent transparent; /* Linea destra sottile */
+    -fx-border-width: 1;
+}
+
+/* I tuoi bottoni Sidebar */
+.sidebar-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #94a3b8;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12 20;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+.sidebar-btn:hover {
+    -fx-background-color: #1e293b;
+    -fx-text-fill: white;
+}
+.sidebar-btn.active {
+    -fx-text-fill: white;
+    -fx-background-color: #1e293b;
+    -fx-border-color: transparent transparent transparent #3b82f6;
+    -fx-border-width: 0 0 0 4;
+}
+
+/* ========================
+   CARD E CONTENUTI
+   ======================= */
+
+/* La scatola grigia che contiene i dettagli */
+.card {
+    -fx-background-color: #1e293b; /* Grigio/Blu scuro */
+    -fx-background-radius: 8;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+}
+
+.issue-title {
+    -fx-text-fill: #3b82f6; /* Titolo azzurro */
+    -fx-font-weight: bold;
+    -fx-font-size: 22px;
+}
+
+.issue-desc {
+    -fx-text-fill: #e2e8f0;
+    -fx-font-size: 14px;
+    -fx-line-spacing: 4;
+}
+
+.image-area {
+    -fx-background-color: #334155; /* Grigio placeholder */
+    -fx-background-radius: 6;
+    -fx-pref-height: 200;
+}
+
+.section-title {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
+
+/* ========================
+   METADATI (Colonna Destra)
+   ======================= */
+.meta-label {
+    -fx-text-fill: #94a3b8; /* Etichette grigie */
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.badge {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5 10;
+    -fx-background-radius: 4;
+    -fx-alignment: CENTER;
+}
+.badge-red { -fx-background-color: #ef4444; } /* Rosso High */
+.badge-purple { -fx-background-color: #8b5cf6; } /* Viola Bug */
+
+.readonly-field {
+    -fx-background-color: #0f172a;
+    -fx-text-fill: #cbd5e1;
+    -fx-padding: 8;
+    -fx-background-radius: 4;
+    -fx-border-color: #334155;
+}
+
+/* ========================
+   COMMENTI E INPUT
+   ======================= */
+.comment-box {
+    -fx-background-color: #0f172a;
+    -fx-border-color: #334155;
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+}
+
+.dark-input {
+    -fx-control-inner-background: #0f172a;
+    -fx-background-color: #0f172a;
+    -fx-border-color: #334155;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #64748b;
+    -fx-border-radius: 4;
+}
+.dark-input:focused {
+    -fx-border-color: #3b82f6;
+}
+
+/* ========================
+   BOTTONI
+   ======================= */
+.btn-back {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 4;
+    -fx-cursor: hand;
+}
+.btn-back:hover { -fx-background-color: rgba(255,255,255,0.1); }
+
+.btn-blue {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 8;
+    -fx-cursor: hand;
+}
+.btn-blue:hover { -fx-background-color: #1d4ed8; }
+
+.btn-green {
+    -fx-background-color: #10b981;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+}
+
+.btn-outline-red {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ef4444;
+    -fx-border-color: #ef4444;
+    -fx-border-radius: 4;
+    -fx-padding: 7;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.btn-outline-red:hover { -fx-background-color: rgba(239, 68, 68, 0.1); }
