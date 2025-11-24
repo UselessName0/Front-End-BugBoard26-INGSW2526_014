@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -18,26 +19,18 @@ import org.example.bugboard26frontend.Entita.ApiService;
 import org.example.bugboard26frontend.Entita.Issue;
 import org.example.bugboard26frontend.Entita.Utente;
 import org.example.bugboard26frontend.Main;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardController {
 
-    @FXML
-    private TableView<Issue> tabellaIssue;
-    @FXML
-    private TableColumn<Issue, String> colTitolo;
-    @FXML
-    private TableColumn<Issue, String> colAutore;
-    @FXML
-    private TableColumn<Issue, String> colPriorita;
-    @FXML
-    private TableColumn<Issue, String> colStato;
-    @FXML
-    private TableColumn<Issue, String> colTipo;
-    @FXML
-    private TableColumn<Issue, String> colData;
+    @FXML private TableView<Issue> tabellaIssue;
+    @FXML private TableColumn<Issue, String> colTitolo;
+    @FXML private TableColumn<Issue, String> colAutore;
+    @FXML private TableColumn<Issue, String> colPriorita;
+    @FXML private TableColumn<Issue, String> colStato;
+    @FXML private TableColumn<Issue, String> colTipo;
+    @FXML private TableColumn<Issue, String> colData;
 
     private final ApiService apiService = new ApiService();
 
