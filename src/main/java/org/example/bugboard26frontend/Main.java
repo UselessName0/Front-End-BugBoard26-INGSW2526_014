@@ -16,12 +16,12 @@ public class Main extends Application {
 
         // 2. Creiamo la scena
         // 400x500 sono dimensioni standard per un box di login verticale
-        Scene scene = new Scene(fxmlLoader.load(), 1080, 720);
+        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
 
         // 3. Impostiamo il titolo e mostriamo la finestra
         stage.setTitle("BugBoard 26 - Login");
         stage.setScene(scene);
-        stage.setResizable(false); // Impedisce di allargare la finestra (brutto nei login)
+        stage.setResizable(false);
         stage.show();
     }
 

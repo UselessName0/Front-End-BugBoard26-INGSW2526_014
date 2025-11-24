@@ -17,22 +17,18 @@ public class ApiService {
     private final HttpClient client = HttpClient.newHttpClient();
     private final ObjectMapper mapper = new ObjectMapper(); // Per il JSON
 
+    // Chiamata API per il login dell'utente
     public Utente login(String email, String password) throws Exception {
-        // 1. Preparo i dati da inviare
         Map<String, String> datiLogin = new HashMap<>();
         datiLogin.put("email", email);
         datiLogin.put("password", password);
-
         String jsonBody = mapper.writeValueAsString(datiLogin);
-
-        // 2. Costruisco la richiesta POST
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(BASE_URL + "/login"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
 
-        // 3. Invio e aspetto la risposta
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() == 200) {
@@ -54,13 +50,29 @@ public class ApiService {
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
         if (response.statusCode() == 200) {
             String jsonRicevuto = response.body();
 
             return mapper.readValue(jsonRicevuto, new TypeReference<List<Issue>>(){});
         } else {
             throw new RuntimeException("Errore nel caricamento delle issue. Codice: " + response.statusCode());
+        }
+    }
+
+    // Chiamata API per creazione di una nuova issue
+    public Issue creaIssue(Issue nuovaIssue) throws Exception {
+        String jsonBody = mapper.writeValueAsString(nuovaIssue);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL + "/issues")) // POST su /api/issues
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        if (response.statusCode() == 200 || response.statusCode() == 201) {
+            return mapper.readValue(response.body(), Issue.class);
+        } else {
+            throw new RuntimeException("Errore creazione issue: " + response.body());
         }
     }
 }

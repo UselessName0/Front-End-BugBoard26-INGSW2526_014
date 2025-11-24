@@ -4,16 +4,21 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import org.example.bugboard26frontend.Entita.ApiService;
 import org.example.bugboard26frontend.Entita.Issue;
 import org.example.bugboard26frontend.Entita.Utente;
+import org.example.bugboard26frontend.Main;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +26,6 @@ public class DashboardController {
 
     @FXML
     private TableView<Issue> tabellaIssue;
-
     @FXML
     private TableColumn<Issue, String> colTitolo;
     @FXML
@@ -37,9 +41,9 @@ public class DashboardController {
 
     private final ApiService apiService = new ApiService();
 
+    // Metodo per l'inizializzazione della tabella centrale (da modificare ovviamente)
     @FXML
     public void initialize() {
-        // Configurazione colonne
         colTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
         colPriorita.setCellValueFactory(new PropertyValueFactory<>("priorita"));
         colStato.setCellValueFactory(new PropertyValueFactory<>("stato"));
@@ -64,14 +68,12 @@ public class DashboardController {
                 } else {
                     Label badge = new Label(item);
                     String baseStyle = "-fx-text-fill: #000000; -fx-font-weight: bold; -fx-padding: 3 10 3 10; -fx-background-radius: 5;";
-
                     switch (item.toUpperCase()) {
                         case "HIGH": badge.setStyle(baseStyle + "-fx-background-color: #ef4444;"); break; // Rosso
                         case "MEDIUM": badge.setStyle(baseStyle + "-fx-background-color: #f59e0b; -fx-text-fill: #000000;"); break; // Giallo
                         case "LOW": badge.setStyle(baseStyle + "-fx-background-color: #10b981;"); break; // Verde
                         default: badge.setStyle(baseStyle + "-fx-background-color: #64748b;");
                     }
-
                     HBox box = new HBox(badge);
                     box.setAlignment(Pos.CENTER);
                     setGraphic(box);
@@ -84,25 +86,24 @@ public class DashboardController {
         caricaDatiFinti();
     }
 
+    // Metodo (da modificare) per caricare dati finti sulla tabella
     private void caricaDatiFinti() {
         List<Issue> listaFinta = new ArrayList<>();
         Utente u1 = new Utente(); u1.setEmail("mario.rossi@dev.it");
         Utente u2 = new Utente(); u2.setEmail("luigi.verdi@design.it");
         Utente u3 = new Utente(); u3.setEmail("admin@bugboard.com");
-
         listaFinta.add(creaIssue(1L, "Login non funzionante", "BUG", "HIGH", "TO DO", "2025-10-05", null));
         listaFinta.add(creaIssue(2L, "Aggiornare colori sidebar", "FEATURE", "LOW", "IN_PROGRESS", "2025-10-06", null));
         listaFinta.add(creaIssue(3L, "Errore esportazione PDF", "BUG", "MEDIUM", "TO DO", "2025-10-08", null));
         listaFinta.add(creaIssue(4L, "Manca documentazione API", "DOCUMENTATION", "HIGH", "DONE", "2025-10-01", null));
         listaFinta.add(creaIssue(5L, "Crash con immagini > 5MB", "BUG", "HIGH", "TO DO", "2025-10-09", null));
-
         Utente uTest = new Utente(); uTest.setEmail("admin@test.com");
         listaFinta.add(creaIssue(6L, "Esempio con autore", "QUESTION", "LOW", "DONE", "2025-09-25", uTest));
-
         ObservableList<Issue> datiGrafici = FXCollections.observableArrayList(listaFinta);
         tabellaIssue.setItems(datiGrafici);
     }
 
+    // Metodo (da mofidicare) per la creazione di una issue
     private Issue creaIssue(Long id, String titolo, String tipo, String priorita, String stato, String data, Utente autore) {
         Issue i = new Issue();
         i.setId(id);
@@ -113,5 +114,27 @@ public class DashboardController {
         i.setDataCreazione(data);
         i.setAssegnatario(autore);
         return i;
+    }
+
+    // Metodo per l'apertura dello stage di creazione di una nuova issue
+    @FXML
+    public void apriCreaIssue() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/nuovaissue-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("BugBoard 26 - Crea Nuova Issue");
+            stage.setWidth(1280);
+            stage.setHeight(720);
+            stage.centerOnScreen();
+            stage.setResizable(true);
+            stage.setMinWidth(1024);
+            stage.setMinHeight(768);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Errore nell'apertura della schermata Crea Issue: " + e.getMessage());
+        }
     }
 }

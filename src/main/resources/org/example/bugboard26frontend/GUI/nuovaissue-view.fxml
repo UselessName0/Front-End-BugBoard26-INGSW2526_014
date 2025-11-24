@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" spacing="20" styleClass="main-container" stylesheets="@style.css"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.bugboard26frontend.GUI.NuovaIssueController">
+
+    <padding>
+        <Insets bottom="40" left="40" right="40" top="40" />
+    </padding>
+
+    <!-- Intestazione -->
+    <HBox alignment="CENTER_LEFT">
+        <Label styleClass="page-title" text="Crea Nuova Issue" />
+    </HBox>
+
+    <!-- Card del Form -->
+    <VBox spacing="20" styleClass="form-card" VBox.vgrow="ALWAYS" maxWidth="900">
+
+        <!-- Titolo -->
+        <VBox spacing="5">
+            <Label styleClass="input-label" text="Titolo Issue" />
+            <TextField fx:id="titoloField" promptText="Es: Errore nel login..." styleClass="text-field" />
+        </VBox>
+
+        <!-- Riga: Tipo e Priorità -->
+        <HBox spacing="20">
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label styleClass="input-label" text="Tipo" />
+                <ComboBox fx:id="tipoCombo" maxWidth="Infinity" styleClass="combo-box">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Bug" />
+                            <String fx:value="Feature" />
+                            <String fx:value="Documentation" />
+                            <String fx:value="Question" />
+                        </FXCollections>
+                    </items>
+                    <value>
+                        <String fx:value="Bug" />
+                    </value>
+                </ComboBox>
+            </VBox>
+
+            <VBox spacing="5" HBox.hgrow="ALWAYS">
+                <Label styleClass="input-label" text="Priorità" />
+                <ComboBox fx:id="prioritaCombo" maxWidth="Infinity" styleClass="combo-box">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Bassa (Low)" />
+                            <String fx:value="Media (Medium)" />
+                            <String fx:value="Alta (High)" />
+                        </FXCollections>
+                    </items>
+                    <value>
+                        <String fx:value="Bassa (Low)" />
+                    </value>
+                </ComboBox>
+            </VBox>
+        </HBox>
+
+        <!-- Descrizione -->
+        <VBox spacing="5" VBox.vgrow="ALWAYS">
+            <Label styleClass="input-label" text="Descrizione Dettagliata" />
+            <TextArea fx:id="descrizioneArea" promptText="Descrivi il problema o la richiesta..." styleClass="text-area" wrapText="true" VBox.vgrow="ALWAYS" />
+        </VBox>
+
+        <!-- Upload Immagine -->
+        <VBox spacing="10">
+            <Label styleClass="input-label" text="Allega Immagine (Opzionale)" />
+            <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-border-color: #334155; -fx-border-style: dashed; -fx-padding: 15; -fx-border-radius: 4;">
+                <Button onAction="#selezionaFile" styleClass="btn-upload" text="Scegli file" />
+                <Label fx:id="labelNomeFile" text="Nessun file selezionato" textFill="#94a3b8" />
+            </HBox>
+        </VBox>
+
+        <!-- Bottoni Azione -->
+        <HBox spacing="15" style="-fx-padding: 20 0 0 0;">
+            <Button onAction="#pubblicaIssue" maxWidth="Infinity" styleClass="btn-success" text="Pubblica Issue" HBox.hgrow="ALWAYS" />
+            <Button onAction="#annulla" maxWidth="Infinity" styleClass="btn-cancel" text="Annulla" HBox.hgrow="ALWAYS" />
+        </HBox>
+
+    </VBox>
+
+</VBox>

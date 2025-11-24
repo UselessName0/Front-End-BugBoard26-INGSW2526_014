@@ -6,7 +6,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane styleClass="main-container" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.DashboardController">
+<BorderPane styleClass="main-container" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.DashboardController">
 
     <!-- TOP BAR-->
     <top>
@@ -60,11 +61,11 @@
 
             <Region HBox.hgrow="ALWAYS" />
 
-            <!-- Bottone Verde -->
-            <Button styleClass="btn-create" text="+ Crea Issue" />
+            <!-- Bottone Create -->
+            <Button styleClass="btn-create" text="+ Crea Issue" onAction="#apriCreaIssue" />
 
             <!-- Avatar -->
-            <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-padding: 0 0 0 10;" text="👤" />
+            <Label fx:id="labelNomeUtente" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 0 0 0 10; -fx-font-weight: bold;" text="👤 Utente" />
         </HBox>
     </top>
 
@@ -77,6 +78,7 @@
             <Button maxWidth="Infinity" styleClass="sidebar-btn" text="≡ Le mie Issue" />
 
             <Region VBox.vgrow="ALWAYS" />
+            <Region minWidth="200" />
 
             <Button maxWidth="Infinity" styleClass="sidebar-btn" text="⚙  Impostazioni" />
             <Button maxWidth="Infinity" styleClass="sidebar-btn" text="💬  Aiuto" />

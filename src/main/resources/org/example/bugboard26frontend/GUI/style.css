@@ -1,11 +1,15 @@
-/* --- GENERALE --- */
+/* =========================================
+   STILE GENERALE (BugBoard 26)
+   Palette: Slate (#0f172a, #1e293b), Blue (#2563eb), Green (#10b981)
+   ========================================= */
+
 .main-container {
-    -fx-background-color: #0f172a;
+    -fx-background-color: #0f172a; /* Blu scurissimo di sfondo */
 }
 
 /* --- TOP BAR --- */
 .top-bar {
-    -fx-background-color: #1976D2;
+    -fx-background-color: #2563eb; /* Blu elettrico */
 }
 
 .logo-text {
@@ -14,50 +18,15 @@
     -fx-font-size: 18px;
 }
 
-/* FILTRI E RICERCA */
-.filter-combo {
-    -fx-background-color: white;
-    -fx-background-radius: 3;
-    -fx-font-size: 10px;
-    -fx-pref-height: 20px;
-}
-
-.search-box-container {
-    -fx-background-color: white;
-    -fx-background-radius: 4;
-    -fx-padding: 2;
-}
-
-.search-combo {
-    -fx-background-color: #E3F2FD;
-    -fx-background-radius: 2;
-    -fx-border-color: transparent;
-}
-
-.search-field {
-    -fx-background-color: transparent;
-    -fx-prompt-text-fill: #999;
-}
-
-.search-button {
-    -fx-background-color: #90CAF9;
-    -fx-text-fill: #0D47A1;
-    -fx-background-radius: 2;
-    -fx-cursor: hand;
-}
-
-/* BOTTONE CREA */
-.btn-create {
-    -fx-background-color: #10b981;
+.page-title {
     -fx-text-fill: white;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-background-radius: 4;
-    -fx-cursor: hand;
 }
 
-/* SIDEBAR */
+/* --- SIDEBAR --- */
 .sidebar {
-    -fx-background-color: #333333;
+    -fx-background-color: #333333; /* Grigio scuro */
     -fx-pref-width: 200;
 }
 
@@ -73,6 +42,7 @@
     -fx-alignment: CENTER_LEFT;
     -fx-padding: 10 15 10 15;
     -fx-cursor: hand;
+    -fx-font-size: 13px;
 }
 
 .sidebar-btn:hover {
@@ -86,51 +56,204 @@
     -fx-text-fill: white;
 }
 
-/* --- TABELLA CON GRIGLIA --- */
+/* =========================================
+   COMPONENTI DI INPUT (Form e Filtri)
+   ========================================= */
+
+/* Etichette Form */
+.input-label {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* Campi di Testo (Login, Ricerca, Crea Issue) */
+.text-field, .text-area {
+    -fx-background-color: #0f172a;
+    -fx-text-fill: white;
+    -fx-border-color: #334155;
+    -fx-border-radius: 4;
+    -fx-prompt-text-fill: #475569;
+}
+
+.text-field:focused, .text-area:focused {
+    -fx-border-color: #3b82f6; /* Blu attivo */
+}
+
+/* Barra di Ricerca (TopBar) - Stile specifico */
+.search-box-container {
+    -fx-background-color: white;
+    -fx-background-radius: 4;
+    -fx-padding: 2;
+}
+.search-combo {
+    -fx-background-color: #E3F2FD;
+    -fx-background-radius: 2;
+    -fx-border-color: transparent;
+}
+.search-field {
+    -fx-background-color: transparent;
+    -fx-prompt-text-fill: #999;
+}
+.search-button {
+    -fx-background-color: #90CAF9;
+    -fx-text-fill: #0D47A1;
+    -fx-background-radius: 2;
+    -fx-cursor: hand;
+}
+
+/* Filtri Combo (TopBar) */
+.filter-combo {
+    -fx-background-color: white;
+    -fx-background-radius: 3;
+    -fx-font-size: 10px;
+    -fx-pref-height: 20px;
+}
+
+/* --- COMBOBOX SCURA (Generale e Form) --- */
+.combo-box {
+    -fx-background-color: #0f172a;
+    -fx-border-color: #334155;
+    -fx-border-radius: 4;
+}
+.combo-box .cell {
+    -fx-text-fill: white;
+}
+.combo-box .arrow {
+    -fx-background-color: #94a3b8;
+}
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+/* MENU A TENDINA (Popup) - Fix Colori */
+.combo-box-popup .list-view {
+    -fx-background-color: #1e293b;
+    -fx-border-color: #334155;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 8, 0.0, 0, 0);
+}
+.combo-box-popup .list-cell {
+    -fx-background-color: #1e293b;
+    -fx-text-fill: white;
+    -fx-padding: 8 10 8 10;
+}
+.combo-box-popup .list-cell:filled:selected,
+.combo-box-popup .list-cell:filled:hover {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+}
+
+/* =========================================
+   BOTTONI
+   ========================================= */
+
+/* Bottone Crea (Verde TopBar) */
+.btn-create {
+    -fx-background-color: #10b981;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+.btn-create:hover {
+    -fx-background-color: #059669;
+}
+
+/* Bottone Pubblica (Verde Form) */
+.btn-success {
+    -fx-background-color: #10b981;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+}
+.btn-success:hover {
+    -fx-background-color: #059669;
+}
+
+/* Bottone Annulla (Trasparente) */
+.btn-cancel {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: #334155;
+    -fx-border-radius: 4;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.btn-cancel:hover {
+    -fx-background-color: #1e293b;
+}
+
+/* Bottone Upload */
+.btn-upload {
+    -fx-background-color: #f8fafc;
+    -fx-text-fill: #0f172a;
+    -fx-font-weight: bold;
+    -fx-background-radius: 3;
+    -fx-cursor: hand;
+}
+
+/* =========================================
+   STRUTTURA PAGINE
+   ========================================= */
+
+/* Card del Form Crea Issue */
+.form-card {
+    -fx-background-color: transparent;
+    -fx-border-color: #334155;
+    -fx-border-radius: 8;
+    -fx-padding: 30;
+}
+
+/* Area contenuto Dashboard */
 .content-area {
     -fx-background-color: #0f172a;
 }
 
+/* =========================================
+   TABELLA (Stile Griglia con Righe)
+   ========================================= */
+
 .table-view {
     -fx-background-color: transparent;
-    -fx-border-color: #555;
+    -fx-border-color: #555; /* Bordo esterno */
 }
 
-/* Header */
+/* Header Tabella */
 .table-view .column-header-background {
-    -fx-background-color: #1976D2;
+    -fx-background-color: #2563eb; /* Blu */
+    -fx-background-insets: 0;
 }
-
 .table-view .column-header {
     -fx-background-color: transparent;
-    -fx-border-color: transparent #ffffff55 transparent transparent;
+    -fx-border-color: transparent #ffffff55 transparent transparent; /* Separatore bianco */
 }
-
 .table-view .column-header .label {
     -fx-text-fill: white;
     -fx-font-weight: bold;
+    -fx-alignment: CENTER-LEFT;
 }
 
-/* Celle e Righe */
+/* Righe */
 .table-row-cell {
-    -fx-background-color: #424242;
+    -fx-background-color: #424242; /* Grigio scuro */
     -fx-text-fill: white;
-    /* Linea orizzontale sotto ogni riga */
-    -fx-border-color: transparent transparent #555 transparent;
+    -fx-border-color: transparent transparent #aaaaaa transparent; /* Linea orizzontale sotto */
+    -fx-border-width: 0 0 1 0;
 }
-
 .table-row-cell:odd {
-    -fx-background-color: #383838;
+    -fx-background-color: #383838; /* Alternanza */
 }
-
 .table-row-cell:hover {
     -fx-background-color: #616161;
 }
 
+/* Celle (Griglia verticale) */
 .table-cell {
     -fx-text-fill: white;
-    -fx-alignment: CENTER_LEFT;
-    -fx-border-color: transparent #666 transparent transparent;
+    -fx-alignment: CENTER-LEFT;
+    -fx-border-color: transparent #666 transparent transparent; /* Linea verticale grigia scura */
     -fx-padding: 5 10 5 10;
 }
 
@@ -141,8 +264,7 @@
     -fx-background-radius: 2;
     -fx-cursor: hand;
 }
-
 .pagination-btn.page-active {
-    -fx-background-color: #1976D2;
+    -fx-background-color: #2563eb;
     -fx-text-fill: white;
 }
