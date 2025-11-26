@@ -3,26 +3,26 @@ package org.example.bugboard26frontend.GUI;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
+import javafx.geometry.Side;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.example.bugboard26frontend.Entita.ApiService;
 import org.example.bugboard26frontend.Entita.Issue;
 import org.example.bugboard26frontend.Entita.Utente;
 import org.example.bugboard26frontend.Main;
-
-import java.awt.event.MouseEvent;
-import java.io.IOException;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,9 @@ public class DashboardController {
     @FXML private TableColumn<Issue, String> colStato;
     @FXML private TableColumn<Issue, String> colTipo;
     @FXML private TableColumn<Issue, String> colData;
+    @FXML private Circle avatarCircle;
 
+    private ContextMenu menuUtente;
     private final ApiService apiService = new ApiService();
 
     // Metodo per l'inizializzazione della tabella centrale (da modificare ovviamente)
@@ -66,10 +68,17 @@ public class DashboardController {
                     Label badge = new Label(item);
                     String baseStyle = "-fx-text-fill: #000000; -fx-font-weight: bold; -fx-padding: 3 10 3 10; -fx-background-radius: 5;";
                     switch (item.toUpperCase()) {
-                        case "HIGH": badge.setStyle(baseStyle + "-fx-background-color: #ef4444;"); break; // Rosso
-                        case "MEDIUM": badge.setStyle(baseStyle + "-fx-background-color: #f59e0b; -fx-text-fill: #000000;"); break;
-                        case "LOW": badge.setStyle(baseStyle + "-fx-background-color: #10b981;"); break; // Verde
-                        default: badge.setStyle(baseStyle + "-fx-background-color: #64748b;");
+                        case "HIGH":
+                            badge.setStyle(baseStyle + "-fx-background-color: #ef4444;");
+                            break; // Rosso
+                        case "MEDIUM":
+                            badge.setStyle(baseStyle + "-fx-background-color: #f59e0b; -fx-text-fill: #000000;");
+                            break;
+                        case "LOW":
+                            badge.setStyle(baseStyle + "-fx-background-color: #10b981;");
+                            break; // Verde
+                        default:
+                            badge.setStyle(baseStyle + "-fx-background-color: #64748b;");
                     }
                     HBox box = new HBox(badge);
                     box.setAlignment(Pos.CENTER);
@@ -87,6 +96,26 @@ public class DashboardController {
             }
         });
 
+        // Menu utente
+        menuUtente = new ContextMenu();
+        MenuItem voceProfilo = new MenuItem("Ciao User");
+        voceProfilo.setDisable(true);
+        voceProfilo.getStyleClass().add("menu-titolo");
+        MenuItem voceLogout = new MenuItem("Logout");
+        voceLogout.setOnAction((ActionEvent event) -> {
+            effettuaLogout();
+        });
+        menuUtente.getItems().addAll(voceProfilo, new SeparatorMenuItem(), voceLogout);
+        menuUtente.getStyleClass().add("mio-menu-utente");
+        menuUtente.setOnShowing(e -> {
+            if (menuUtente.getSkin() != null) {
+                javafx.scene.Node nodoMenu = menuUtente.getSkin().getNode();
+                nodoMenu.getScene().getStylesheets().add(
+                        getClass().getResource("StyleGeneric.css").toExternalForm()
+                );
+            }
+        });
+
         // Carichiamo i dati finti per ora
         caricaDatiFinti();
     }
@@ -94,15 +123,19 @@ public class DashboardController {
     // Metodo (da modificare) per caricare dati finti sulla tabella
     private void caricaDatiFinti() {
         List<Issue> listaFinta = new ArrayList<>();
-        Utente u1 = new Utente(); u1.setEmail("mario.rossi@dev.it");
-        Utente u2 = new Utente(); u2.setEmail("luigi.verdi@design.it");
-        Utente u3 = new Utente(); u3.setEmail("admin@bugboard.com");
+        Utente u1 = new Utente();
+        u1.setEmail("mario.rossi@dev.it");
+        Utente u2 = new Utente();
+        u2.setEmail("luigi.verdi@design.it");
+        Utente u3 = new Utente();
+        u3.setEmail("admin@bugboard.com");
         listaFinta.add(creaIssue(1L, "Login non funzionante", "BUG", "HIGH", "TO DO", "2025-10-05", null));
         listaFinta.add(creaIssue(2L, "Aggiornare colori sidebar", "FEATURE", "LOW", "IN_PROGRESS", "2025-10-06", null));
         listaFinta.add(creaIssue(3L, "Errore esportazione PDF", "BUG", "MEDIUM", "TO DO", "2025-10-08", null));
         listaFinta.add(creaIssue(4L, "Manca documentazione API", "DOCUMENTATION", "HIGH", "DONE", "2025-10-01", null));
         listaFinta.add(creaIssue(5L, "Crash con immagini > 5MB", "BUG", "HIGH", "TO DO", "2025-10-09", null));
-        Utente uTest = new Utente(); uTest.setEmail("admin@test.com");
+        Utente uTest = new Utente();
+        uTest.setEmail("admin@test.com");
         listaFinta.add(creaIssue(6L, "Esempio con autore", "QUESTION", "LOW", "DONE", "2025-09-25", uTest));
         ObservableList<Issue> datiGrafici = FXCollections.observableArrayList(listaFinta);
         tabellaIssue.setItems(datiGrafici);
@@ -125,7 +158,7 @@ public class DashboardController {
     @FXML
     public void apriCreaIssue() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/nuovaissue-view.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/createissue-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = (Stage) tabellaIssue.getScene().getWindow();
             stage.setScene(scene);
@@ -167,6 +200,51 @@ public class DashboardController {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Errore apertura dettaglio: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void apriLeMieIssue() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/personalissue-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("BugBoard 26 - Le Mie Issue");
+            stage.setWidth(1280);
+            stage.setHeight(720);
+            stage.centerOnScreen();
+            stage.setResizable(true);
+            stage.setMinWidth(1024);
+            stage.setMinHeight(768);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Errore nell'apertura della schermata Crea Issue: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    void apriMenuUtente(MouseEvent event) {
+        if (menuUtente.isShowing()) {
+            menuUtente.hide();
+        } else {
+            menuUtente.show(avatarCircle, Side.BOTTOM, -100, 10);
+        }
+        event.consume();
+    }
+
+    private void effettuaLogout() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/login-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = (Stage) avatarCircle.getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+            System.out.println("Logout effettuato con successo.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Errore durante il logout. Controlla il percorso del file FXML.");
         }
     }
 }

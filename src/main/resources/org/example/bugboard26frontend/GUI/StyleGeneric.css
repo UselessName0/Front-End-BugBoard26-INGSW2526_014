@@ -68,12 +68,20 @@
 }
 
 /* Campi di Testo (Login, Ricerca, Crea Issue) */
-.text-field, .text-area {
+.text-field {
     -fx-background-color: #0f172a;
     -fx-text-fill: white;
     -fx-border-color: #334155;
     -fx-border-radius: 4;
     -fx-prompt-text-fill: #475569;
+}
+
+.text-area {
+    -fx-background-color: #0f172a;
+    -fx-text-fill: black;
+    -fx-border-color: #334155;
+    -fx-border-radius: 4;
+    -fx-prompt-text-fill: #475569
 }
 
 .text-field:focused, .text-area:focused {
@@ -82,7 +90,7 @@
 
 /* Barra di Ricerca (TopBar) - Stile specifico */
 .search-box-container {
-    -fx-background-color: white;
+    -fx-background-color: #0f172a;
     -fx-background-radius: 4;
     -fx-padding: 2;
 }
@@ -194,6 +202,18 @@
     -fx-cursor: hand;
 }
 
+.btn-accedi {
+    -fx-background-color: #10B981FF;
+}
+
+/* =========================================
+   LABEL
+   ========================================= */
+
+.text-label {
+    -fx-text-fill: white;
+}
+
 /* =========================================
    STRUTTURA PAGINE
    ========================================= */
@@ -267,4 +287,63 @@
 .pagination-btn.page-active {
     -fx-background-color: #2563eb;
     -fx-text-fill: white;
+}
+
+/* =========================================
+    MENU A SCOMPRSA PER UTENTE
+   ========================================= */
+
+.mio-menu-utente .context-menu {
+    -fx-background-color: #2b2b2b !important;
+    -fx-background-radius: 8px !important;
+    -fx-border-radius: 8px !important;
+    -fx-border-color: #444444;
+    -fx-border-width: 1px;
+    -fx-padding: 8px 0px !important;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 10, 0, 0, 4);
+    -fx-background-insets: 0;
+}
+
+/* 2. Le singole righe (Contenitori di Ciao User e Logout) */
+.mio-menu-utente .menu-item {
+    -fx-background-color: transparent;
+    /* Spazio interno per ingrandire le righe orizzontalmente */
+    -fx-padding: 8px 20px !important;
+}
+
+/* 3. Il TESTO delle righe */
+.mio-menu-utente .menu-item .label {
+    -fx-text-fill: #e0e0e0; /* Testo chiaro */
+    -fx-font-size: 13.5px;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* 4. Quando passi il mouse sopra (Hover) su Logout */
+.mio-menu-utente .menu-item:focused {
+    -fx-background-color: #3c3c3c !important; /* Evidenziazione grigia */
+    -fx-cursor: hand;
+}
+
+/* 5. Stile specifico per il TITOLO "Ciao User" */
+/* Usiamo la classe che abbiamo aggiunto via Java */
+.menu-titolo {
+    -fx-opacity: 1.0 !important; /* Forza visibilità */
+    /* Rimuove l'effetto hover dal titolo */
+    -fx-background-color: transparent !important;
+}
+
+.menu-titolo .label {
+    -fx-text-fill: #ffffff !important; /* Bianco puro */
+    -fx-font-weight: bold;
+    -fx-font-size: 15px !important;
+    /* Un po' di spazio sotto il titolo */
+    -fx-padding: 0 0 4px 0 !important;
+}
+
+/* 6. Il separatore orizzontale */
+.mio-menu-utente .separator .line {
+    -fx-border-color: #444444;
+    -fx-border-width: 1px 0 0 0;
+    /* Margini laterali per non toccare i bordi */
+    -fx-border-insets: 0 15px 0 15px;
 }

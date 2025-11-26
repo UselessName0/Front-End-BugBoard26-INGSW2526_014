@@ -5,13 +5,8 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.paint.ImagePattern?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.Cursor?>
 
-<BorderPane styleClass="main-container" stylesheets="@StyleGeneric.css"
-            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.DashboardController">
+<BorderPane styleClass="main-container" stylesheets="@StyleGeneric.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.DashboardController">
 
     <!-- TOP BAR-->
     <top>
@@ -46,15 +41,15 @@
                 </ComboBox>
             </VBox>
 
-             <!-- COMBOBOX RICERCA -->
-             <ComboBox promptText="Issues" styleClass="search-combo">
-                 <items>
-                     <FXCollections fx:factory="observableArrayList">
-                         <String fx:value="Issue" />
-                         <String fx:value="Utente" />
-                     </FXCollections>
-                 </items>
-             </ComboBox>
+            <!-- COMBOBOX RICERCA -->
+            <ComboBox promptText="Issues" styleClass="search-combo">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Issue" />
+                        <String fx:value="Utente" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
 
             <!-- Barra Ricerca -->
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="411.0" styleClass="search-box-container">
@@ -68,21 +63,8 @@
             <!-- Bottone Create -->
             <Button onAction="#apriCreaIssue" styleClass="btn-create" text="+ Crea Issue" />
 
-            <!-- Avatar Utente lato dx -->
-            <Circle fx:id="avatarCircle" radius="20.0" onMouseClicked="#apriMenuUtente">
-                <fill>
-                    <ImagePattern>
-                        <image>
-                            <Image url="@images/logoutente.png"/>
-                        </image>
-                    </ImagePattern>
-                </fill>
-                <cursor>
-                    <Cursor fx:constant="HAND"/>
-                </cursor>
-                <stroke>WHITE</stroke>
-                <strokeWidth>1.0</strokeWidth>
-            </Circle>
+            <!-- Avatar -->
+            <Label fx:id="labelNomeUtente" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 0 0 0 10; -fx-font-weight: bold;" text="👤 Utente" />
         </HBox>
     </top>
 
@@ -92,7 +74,7 @@
             <padding><Insets top="20" /></padding>
 
             <Button maxWidth="Infinity" styleClass="sidebar-btn, active" text="≡  Lista Issue" />
-            <Button onAction="#apriLeMieIssue" prefHeight="40.0" prefWidth="200.0" styleClass="sidebar-btn" text="≡ Le mie Issue" />
+            <Button maxWidth="Infinity" styleClass="sidebar-btn" text="≡ Le mie Issue" />
 
             <Region VBox.vgrow="ALWAYS" />
             <Region minWidth="200" />

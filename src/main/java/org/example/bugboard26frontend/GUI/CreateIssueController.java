@@ -11,7 +11,7 @@ import org.example.bugboard26frontend.Entita.ApiService;
 import org.example.bugboard26frontend.Entita.Issue;
 import java.io.File;
 
-public class NuovaIssueController {
+public class CreateIssueController {
     @FXML private TextField titoloField;
     @FXML private ComboBox<String> tipoCombo;
     @FXML private ComboBox<String> prioritaCombo;

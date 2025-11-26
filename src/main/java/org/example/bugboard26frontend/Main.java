@@ -10,15 +10,9 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // 1. Carichiamo il file FXML
-        // NOTA: Abbiamo aggiunto "GUI/" perché il file ora è in quella sottocartella nelle risorse
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/dashboard-view.fxml"));
-
-        // 2. Creiamo la scena
-        // 400x500 sono dimensioni standard per un box di login verticale
+        // 400x500 dimensioni standard per login
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
-
-        // 3. Impostiamo il titolo e mostriamo la finestra
         stage.setTitle("BugBoard 26 - Login");
         stage.setScene(scene);
         stage.setResizable(false);
