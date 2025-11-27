@@ -87,9 +87,7 @@
         <!-- Bottoni Azione -->
         <HBox spacing="15" style="-fx-padding: 20 0 0 0;">
             <Button onAction="#pubblicaIssue" maxWidth="Infinity" styleClass="btn-success" text="Pubblica Issue" HBox.hgrow="ALWAYS" />
-            <Button onAction="#annulla" maxWidth="Infinity" styleClass="btn-cancel" text="Annulla" HBox.hgrow="ALWAYS" />
+            <Button onAction="#chiudiFinestra" maxWidth="Infinity" styleClass="btn-cancel" text="Annulla" HBox.hgrow="ALWAYS" />
         </HBox>
-
     </VBox>
-
 </VBox>

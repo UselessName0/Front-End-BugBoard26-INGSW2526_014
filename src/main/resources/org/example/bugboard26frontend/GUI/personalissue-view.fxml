@@ -6,7 +6,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane styleClass="main-container" stylesheets="@StyleGeneric.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.DashboardController">
+<?import javafx.scene.paint.ImagePattern?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<BorderPane styleClass="main-container" stylesheets="@StyleGeneric.css"
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.bugboard26frontend.GUI.PersonalIssueController">
 
     <!-- TOP BAR-->
     <top>
@@ -60,11 +66,25 @@
 
             <Region HBox.hgrow="ALWAYS" />
 
-            <!-- Bottone Create -->
-            <Button onAction="#apriCreaIssue" styleClass="btn-create" text="+ Crea Issue" />
+<!--            Bottone Create -->
+<!--            <Button onAction="#apriCreaIssue" styleClass="btn-create" text="+ Crea Issue" /> -->
 
-            <!-- Avatar -->
-            <Label fx:id="labelNomeUtente" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 0 0 0 10; -fx-font-weight: bold;" text="👤 Utente" />
+            <!-- Avatar Utente lato dx -->
+            <Circle fx:id="avatarCircle" radius="20.0" onMouseClicked="#apriMenuUtente">
+                <fill>
+                    <ImagePattern>
+                        <image>
+                            <Image url="@images/logoutente.png"/>
+                        </image>
+                    </ImagePattern>
+                </fill>
+                <cursor>
+                    <Cursor fx:constant="HAND"/>
+                </cursor>
+                <stroke>WHITE</stroke>
+                <strokeWidth>1.0</strokeWidth>
+            </Circle>
+
         </HBox>
     </top>
 
@@ -73,8 +93,8 @@
         <VBox spacing="0" styleClass="sidebar">
             <padding><Insets top="20" /></padding>
 
-            <Button maxWidth="Infinity" styleClass="sidebar-btn, active" text="≡  Lista Issue" />
-            <Button maxWidth="Infinity" styleClass="sidebar-btn" text="≡ Le mie Issue" />
+            <Button onAction="#tornaIndietro" maxWidth="Infinity" styleClass="sidebar-btn" text="≡  Lista Issue" />
+            <Button maxWidth="Infinity" styleClass="sidebar-btn, active" text="≡ Le mie Issue" />
 
             <Region VBox.vgrow="ALWAYS" />
             <Region minWidth="200" />

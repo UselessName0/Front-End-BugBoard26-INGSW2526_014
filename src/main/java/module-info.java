@@ -17,6 +17,7 @@ module org.example.bugboard26frontend {
     requires java.net.http;
     requires com.fasterxml.jackson.databind;
     requires java.desktop;
+    requires javafx.graphics;
 
     // --- PERMESSI (EXPORTS e OPENS) ---
 

@@ -240,6 +240,9 @@ public class DashboardController {
             Stage stage = (Stage) avatarCircle.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
+            stage.setResizable(false);
+            stage.setWidth(400);
+            stage.setHeight(500);
             stage.show();
             System.out.println("Logout effettuato con successo.");
         } catch (Exception e) {

@@ -23,7 +23,7 @@
 
             <!-- Filtri a Tendina -->
             <VBox spacing="2">
-                <!-- FILTRO TIPO -->
+                <!-- Filtro Tipo -->
                 <ComboBox prefWidth="120" promptText="Filtra per tipo" styleClass="filter-combo">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
@@ -34,7 +34,7 @@
                     </items>
                 </ComboBox>
 
-                <!-- FILTRO STATO -->
+                <!-- Filtro Stato -->
                 <ComboBox prefWidth="120" promptText="Filtra per stato" styleClass="filter-combo">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
@@ -46,7 +46,7 @@
                 </ComboBox>
             </VBox>
 
-             <!-- COMBOBOX RICERCA -->
+             <!-- ComboBox Ricerca -->
              <ComboBox promptText="Issues" styleClass="search-combo">
                  <items>
                      <FXCollections fx:factory="observableArrayList">
@@ -86,7 +86,7 @@
         </HBox>
     </top>
 
-    <!-- SIDEBAR -->
+    <!-- Sidebar -->
     <left>
         <VBox spacing="0" styleClass="sidebar">
             <padding><Insets top="20" /></padding>
@@ -102,7 +102,7 @@
         </VBox>
     </left>
 
-    <!-- CENTRO (TABELLA) -->
+    <!-- Centro (TABELLA) -->
     <center>
         <VBox spacing="10" styleClass="content-area">
             <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>

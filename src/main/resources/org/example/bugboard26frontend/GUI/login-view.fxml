@@ -5,8 +5,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<!-- Il VBox è un contenitore che impila gli elementi verticalmente -->
-
 <VBox alignment="CENTER" spacing="20.0" styleClass="main-container" stylesheets="@StyleGeneric.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.LoginController">
 
     <padding>
@@ -34,7 +32,7 @@
         <PasswordField fx:id="passwordField" promptText="••••••••" styleClass="text-field" />
     </VBox>
 
-    <!-- Messaggio di Errore (Nascosto all'inizio) -->
+    <!-- Messaggio di Errore (nascosto inizialmente) -->
     <Label fx:id="errorLabel" text="Credenziali errate!" textFill="#ef4444" visible="false" />
 
     <!-- Bottone Login -->

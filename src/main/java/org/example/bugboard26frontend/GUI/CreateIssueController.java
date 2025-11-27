@@ -62,13 +62,8 @@ public class CreateIssueController {
         }
     }
 
-    // Metodo che permette l'annullamento di una issue
-    @FXML
-    protected void annulla() {
-        chiudiFinestra();
-    }
-
     // Metodo di chiusura della finestra di creazione di una nuova issue
+    @FXML
     private void chiudiFinestra() {
         try {
             javafx.fxml.FXMLLoader fxmlLoader = new javafx.fxml.FXMLLoader(
@@ -77,6 +72,13 @@ public class CreateIssueController {
             javafx.scene.Scene scene = new javafx.scene.Scene(fxmlLoader.load());
             Stage stage = (Stage) titoloField.getScene().getWindow();
             stage.setScene(scene);
+            stage.setTitle("BugBoard 26 - Dashboard");
+            stage.setWidth(1280);
+            stage.setHeight(720);
+            stage.centerOnScreen();
+            stage.setResizable(true);
+            stage.setMinWidth(1024);
+            stage.setMinHeight(768);
         } catch (Exception e) {
             e.printStackTrace();
         }
