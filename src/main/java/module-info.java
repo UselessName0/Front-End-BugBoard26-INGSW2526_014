@@ -34,4 +34,6 @@ module org.example.bugboard26frontend {
     // FONDAMENTALE: 'opens' serve anche a Jackson per trasformare il JSON in Oggetti
     exports org.example.bugboard26frontend.Entita;
     opens org.example.bugboard26frontend.Entita to javafx.fxml, com.fasterxml.jackson.databind;
+    exports org.example.bugboard26frontend.APIServices;
+    opens org.example.bugboard26frontend.APIServices to com.fasterxml.jackson.databind, javafx.fxml;
 }

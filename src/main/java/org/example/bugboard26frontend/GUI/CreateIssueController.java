@@ -7,9 +7,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.example.bugboard26frontend.Entita.ApiService;
+import org.example.bugboard26frontend.APIServices.ApiClient;
 import org.example.bugboard26frontend.Entita.Issue;
 import java.io.File;
+
+import static org.example.bugboard26frontend.APIServices.ApiClient.apiClient;
 
 public class CreateIssueController {
     @FXML private TextField titoloField;
@@ -18,7 +20,7 @@ public class CreateIssueController {
     @FXML private TextArea descrizioneArea;
     @FXML private Label labelNomeFile;
     private File fileSelezionato;
-    private final ApiService apiService = new ApiService();
+    private ApiClient apiClient = ApiClient.getApiClient();
 
     // Metodo che permette la selezione di tipi specifici di file (foto)
     @FXML
@@ -53,7 +55,7 @@ public class CreateIssueController {
             nuovaIssue.setPriorita(priorita);
             nuovaIssue.setDescrizione(descrizione);
             nuovaIssue.setStato("TO DO");
-            apiService.creaIssue(nuovaIssue);
+            apiClient.creaIssue(nuovaIssue);
             System.out.println("Issue pubblicata con successo!");
             chiudiFinestra();
         } catch (Exception e) {

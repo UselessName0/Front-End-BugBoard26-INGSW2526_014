@@ -1,5 +1,6 @@
 package org.example.bugboard26frontend.GUI;
 
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,11 +9,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.bugboard26frontend.Entita.ApiService;
+import org.example.bugboard26frontend.APIServices.ApiClient;
+import org.example.bugboard26frontend.APIServices.AuthService;
 import org.example.bugboard26frontend.Entita.Utente;
 import org.example.bugboard26frontend.Main;
 
 import java.io.IOException;
+import java.security.AuthProvider;
 
 public class LoginController {
 
@@ -20,7 +23,7 @@ public class LoginController {
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
 
-    private final ApiService apiService = new ApiService();
+    private final AuthService authService = new AuthService();
 
     @FXML
     protected void onLoginClick() {
@@ -31,14 +34,39 @@ public class LoginController {
             mostraErrore("Inserisci email e password!");
             return;
         }
-        try {
-            Utente utente = apiService.login(email, password);
-            apriDashboard(utente);
-        } catch (Exception e) {
-            mostraErrore("Errore: " + e.getMessage());
-            e.printStackTrace();
-        }
+        Task<Boolean> loginTask = new Task<>() {
+            @Override
+            protected Boolean call() throws  Exception {
+                return authService.Login(email, password);
+            }
+        };
+
+        loginTask.setOnSucceeded(event -> {
+            errorLabel.setText("");
+            System.out.println("Login effettuato con successo!");
+
+            try {
+                Utente utenteLoggato = authService.getUtenteLoggato();
+                apriDashboard(utenteLoggato);
+            } catch (IOException e) {
+                e.printStackTrace();
+                mostraErrore("Errore aprendo la dashboard: " + e.getMessage());
+            }
+        });
+
+        loginTask.setOnFailed(event -> {
+            Throwable exception = loginTask.getException();
+            String messaggioErrore = "Errore durante il login.";
+            if (exception != null) {
+                messaggioErrore += " " + exception.getMessage();
+            }
+            mostraErrore(messaggioErrore);
+        });
+
+        new Thread(loginTask).start();
     }
+
+
 
     // Metodo che permette l'apertura della dashboard
     private void apriDashboard(Utente utenteLoggato) throws IOException {

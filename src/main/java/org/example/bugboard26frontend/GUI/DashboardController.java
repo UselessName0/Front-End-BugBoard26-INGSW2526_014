@@ -18,11 +18,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import org.example.bugboard26frontend.Entita.ApiService;
+import org.example.bugboard26frontend.APIServices.ApiClient;
 import org.example.bugboard26frontend.Entita.Issue;
 import org.example.bugboard26frontend.Entita.Utente;
 import org.example.bugboard26frontend.Main;
-import java.awt.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class DashboardController {
     @FXML private Circle avatarCircle;
 
     private ContextMenu menuUtente;
-    private final ApiService apiService = new ApiService();
+    private final ApiClient apiService = ApiClient.getApiClient();
 
     // Metodo per l'inizializzazione della tabella centrale (da modificare ovviamente)
     @FXML
