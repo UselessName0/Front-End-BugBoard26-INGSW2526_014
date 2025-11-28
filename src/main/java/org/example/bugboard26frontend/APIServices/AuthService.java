@@ -45,6 +45,10 @@ public class AuthService {
             return true;
         } else if (response.statusCode() == 401) {
             throw new Exception("Credenziali non valide.");
+        
+        } else if (response.statusCode() == 500) {
+            throw new Exception("Credenziali non valide.");
+            
         } else {
             throw new Exception("Errore durante il login: " + response.statusCode());
         }

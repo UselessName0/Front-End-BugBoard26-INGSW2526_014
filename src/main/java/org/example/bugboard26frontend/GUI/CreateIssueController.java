@@ -11,7 +11,7 @@ import org.example.bugboard26frontend.APIServices.ApiClient;
 import org.example.bugboard26frontend.Entita.Issue;
 import java.io.File;
 
-import static org.example.bugboard26frontend.APIServices.ApiClient.apiClient;
+import static org.example.bugboard26frontend.APIServices.ApiClient.getApiClient;
 
 public class CreateIssueController {
     @FXML private TextField titoloField;
@@ -55,7 +55,7 @@ public class CreateIssueController {
             nuovaIssue.setPriorita(priorita);
             nuovaIssue.setDescrizione(descrizione);
             nuovaIssue.setStato("TO DO");
-            apiClient.creaIssue(nuovaIssue);
+          //  apiClient.creaIssue(nuovaIssue);
             System.out.println("Issue pubblicata con successo!");
             chiudiFinestra();
         } catch (Exception e) {

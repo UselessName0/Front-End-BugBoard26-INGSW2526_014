@@ -242,6 +242,7 @@ public class DashboardController {
             stage.centerOnScreen();
             stage.setResizable(false);
             stage.show();
+
             System.out.println("Logout effettuato con successo.");
         } catch (Exception e) {
             e.printStackTrace();
