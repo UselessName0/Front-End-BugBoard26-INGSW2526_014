@@ -20,6 +20,7 @@
 /* ========================
    TOP BAR & SIDEBAR
    ======================== */
+
 .top-bar {
     -fx-background-color: #2563eb; /* Blu elettrico */
 }
@@ -94,6 +95,7 @@
 /* ========================
    METADATI (Colonna Destra)
    ======================= */
+
 .meta-label {
     -fx-text-fill: #94a3b8; /* Etichette grigie */
     -fx-font-size: 12px;
@@ -108,6 +110,8 @@
     -fx-alignment: CENTER;
 }
 .badge-red { -fx-background-color: #ef4444; } /* Rosso High */
+.badge-orange { -fx-background-color: #fd7e14; } /* Arancione Medium */
+.badge-green { -fx-background-color: #28a745; } /* Verde low */
 .badge-purple { -fx-background-color: #8b5cf6; } /* Viola Bug */
 
 .readonly-field {
@@ -121,6 +125,7 @@
 /* ========================
    COMMENTI E INPUT
    ======================= */
+
 .comment-box {
     -fx-background-color: #0f172a;
     -fx-border-color: #334155;
@@ -143,6 +148,7 @@
 /* ========================
    BOTTONI
    ======================= */
+
 .btn-back {
     -fx-background-color: transparent;
     -fx-text-fill: white;

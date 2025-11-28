@@ -73,7 +73,7 @@ public class DashboardController {
                             break; // Rosso
                         case "MEDIUM":
                             badge.setStyle(baseStyle + "-fx-background-color: #f59e0b; -fx-text-fill: #000000;");
-                            break;
+                            break; // Arancione
                         case "LOW":
                             badge.setStyle(baseStyle + "-fx-background-color: #10b981;");
                             break; // Verde
@@ -191,7 +191,7 @@ public class DashboardController {
             Stage stage = (Stage) tabellaIssue.getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("Dettaglio Issue #" + issueSelezionata.getId());
-            stage.setWidth(1280);
+            stage.setWidth(1300);
             stage.setHeight(720);
             stage.centerOnScreen();
             stage.setResizable(true);
@@ -236,13 +236,11 @@ public class DashboardController {
     private void effettuaLogout() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/login-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
+            Scene scene = new Scene(fxmlLoader.load(), 400, 500);
             Stage stage = (Stage) avatarCircle.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
             stage.setResizable(false);
-            stage.setWidth(400);
-            stage.setHeight(500);
             stage.show();
             System.out.println("Logout effettuato con successo.");
         } catch (Exception e) {

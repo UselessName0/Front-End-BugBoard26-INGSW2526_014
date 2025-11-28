@@ -46,7 +46,6 @@ public class PersonalIssueController {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/dashboard-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.setTitle("BugBoard - Dashboard");
@@ -70,14 +69,11 @@ public class PersonalIssueController {
     private void effettuaLogout() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/login-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
+            Scene scene = new Scene(fxmlLoader.load(), 400, 500);
             Stage stage = (Stage) avatarCircle.getScene().getWindow();
             stage.setScene(scene);
             stage.centerOnScreen();
-            stage.setTitle("BugBoard - Login");
             stage.setResizable(false);
-            stage.setWidth(400);
-            stage.setHeight(500);
             stage.show();
             System.out.println("Logout effettuato con successo.");
         } catch (Exception e) {

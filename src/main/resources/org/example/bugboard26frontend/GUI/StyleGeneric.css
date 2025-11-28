@@ -152,7 +152,7 @@
 }
 
 /* =========================================
-   BOTTONI
+   BOTTONI & BADGE
    ========================================= */
 
 /* Bottone Crea (Verde TopBar) */
@@ -205,6 +205,18 @@
 .btn-accedi {
     -fx-background-color: #10B981FF;
 }
+
+.badge {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5 10;
+    -fx-background-radius: 4;
+    -fx-alignment: CENTER;
+}
+.badge-red { -fx-background-color: #ef4444; } /* Rosso High */
+.badge-orange { -fx-background-color: #fd7e14; } /* Arancione Medium */
+.badge { -fx-background-color: #28a745; } /* Verde low */
+.badge-purple { -fx-background-color: #8b5cf6; } /* Viola Bug */
 
 /* =========================================
    LABEL

@@ -53,23 +53,21 @@ public class IssueController {
 
     private void aggiornaStileBadge(Label badge, String testo) {
         // Rimuovi tutti gli stili potenziali precedenti per evitare conflitti
-        badge.getStyleClass().removeAll("badge-red", "badge-purple", "badge-green", "badge-yellow");
-
-        if (testo == null) return;
-
+        badge.getStyleClass().removeAll("badge-red", "badge-purple", "badge-green", "badge-orange");
         String t = testo.toUpperCase();
-
-        // Logica di assegnazione colori basata sui valori
+        if (!badge.getStyleClass().contains("badge")) {
+            badge.getStyleClass().add("badge");
+        }
         if (t.equals("HIGH") || t.equals("CRITICAL")) {
-            badge.getStyleClass().add("badge-red");     // Rosso per alta priorità
+            badge.getStyleClass().add("badge-red");
         } else if (t.equals("BUG") || t.equals("FEATURE")) {
-            badge.getStyleClass().add("badge-purple");  // Viola per Bug e Feature
+            badge.getStyleClass().add("badge-purple");
         } else if (t.equals("LOW")) {
-            badge.getStyleClass().add("badge-green");   // Verde per bassa priorità
+            badge.getStyleClass().add("badge-green");
         } else if (t.equals("MEDIUM")) {
-            badge.getStyleClass().add("badge-yellow");  // Giallo per media priorità
+            badge.getStyleClass().add("badge-orange");
         } else {
-            badge.getStyleClass().add("badge-purple");  // Default viola
+            badge.getStyleClass().add("badge-purple");
         }
     }
 
@@ -89,4 +87,6 @@ public class IssueController {
             System.out.println("Errore tornando indietro: " + e.getMessage());
         }
     }
+
+
 }
