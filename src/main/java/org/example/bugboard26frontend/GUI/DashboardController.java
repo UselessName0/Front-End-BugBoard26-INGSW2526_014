@@ -26,7 +26,7 @@ import org.example.bugboard26frontend.Main;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardController {
+public class DashboardController extends BaseController{
 
     @FXML private TableView<Issue> tabellaIssue;
     @FXML private TableColumn<Issue, String> colTitolo;
@@ -88,22 +88,22 @@ public class DashboardController {
             }
         });
         tabellaIssue.setOnMouseClicked(event -> {
-            // Se fai doppio click E hai selezionato qualcosa
             if (event.getClickCount() == 2 && tabellaIssue.getSelectionModel().getSelectedItem() != null) {
                 Issue issueSelezionata = tabellaIssue.getSelectionModel().getSelectedItem();
-                // Apri la pagina di dettaglio
-                apriDettaglioIssue(issueSelezionata);
+                Stage stageCorrente = (Stage) tabellaIssue.getScene().getWindow();
+                apriDettaglioIssue(issueSelezionata, stageCorrente);
             }
         });
 
         // Menu utente
         menuUtente = new ContextMenu();
-        MenuItem voceProfilo = new MenuItem("Ciao User");
+        MenuItem voceProfilo = new MenuItem("Ciao " + (utenteLoggato != null ? utenteLoggato.getNome() : "User"));
         voceProfilo.setDisable(true);
         voceProfilo.getStyleClass().add("menu-titolo");
         MenuItem voceLogout = new MenuItem("Logout");
         voceLogout.setOnAction((ActionEvent event) -> {
-            effettuaLogout();
+            Stage stageCorrente = (Stage) tabellaIssue.getScene().getWindow();
+            effettuaLogout(stageCorrente);
         });
         menuUtente.getItems().addAll(voceProfilo, new SeparatorMenuItem(), voceLogout);
         menuUtente.getStyleClass().add("mio-menu-utente");
@@ -154,75 +154,75 @@ public class DashboardController {
         return i;
     }
 
-    // Metodo per l'apertura dello stage di creazione di una nuova issue
-    @FXML
-    public void apriCreaIssue() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/createissue-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("BugBoard 26 - Crea Nuova Issue");
-            stage.setWidth(1280);
-            stage.setHeight(720);
-            stage.centerOnScreen();
-            stage.setResizable(true);
-            stage.setMinWidth(1024);
-            stage.setMinHeight(768);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Errore nell'apertura della schermata Crea Issue: " + e.getMessage());
-        }
-    }
-
-    // --- METODO PER APRIRE LA NUOVA PAGINA ---
-    public void apriDettaglioIssue(Issue issueSelezionata) {
-        try {
-            // Carica il file FXML che abbiamo appena rifatto uguale al mockup
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/issue-view.fxml"));
-            Parent root = fxmlLoader.load();
-
-            // Passa i dati al controller della pagina di dettaglio
-            IssueController controller = fxmlLoader.getController();
-            controller.setDatiIssue(issueSelezionata);
-
-            // Cambia la scena
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Dettaglio Issue #" + issueSelezionata.getId());
-            stage.setWidth(1300);
-            stage.setHeight(720);
-            stage.centerOnScreen();
-            stage.setResizable(true);
-            stage.setMinWidth(1024);
-            stage.setMinHeight(768);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Errore apertura dettaglio: " + e.getMessage());
-        }
-    }
-
-    @FXML
-    public void apriLeMieIssue() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/personalissue-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("BugBoard 26 - Le Mie Issue");
-            stage.setWidth(1280);
-            stage.setHeight(720);
-            stage.centerOnScreen();
-            stage.setResizable(true);
-            stage.setMinWidth(1024);
-            stage.setMinHeight(768);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Errore nell'apertura della schermata Crea Issue: " + e.getMessage());
-        }
-    }
-
+//    // Metodo per l'apertura dello stage di creazione di una nuova issue
+//    @FXML
+//    public void apriCreaIssue() {
+//        try {
+//            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/createissue-view.fxml"));
+//            Scene scene = new Scene(fxmlLoader.load());
+//            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
+//            stage.setScene(scene);
+//            stage.setTitle("BugBoard 26 - Crea Nuova Issue");
+//            stage.setWidth(1280);
+//            stage.setHeight(720);
+//            stage.centerOnScreen();
+//            stage.setResizable(true);
+//            stage.setMinWidth(1024);
+//            stage.setMinHeight(768);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("Errore nell'apertura della schermata Crea Issue: " + e.getMessage());
+//        }
+//    }
+//
+//    // --- METODO PER APRIRE LA NUOVA PAGINA ---
+//    public void apriDettaglioIssue(Issue issueSelezionata) {
+//        try {
+//            // Carica il file FXML che abbiamo appena rifatto uguale al mockup
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/issue-view.fxml"));
+//            Parent root = fxmlLoader.load();
+//
+//            // Passa i dati al controller della pagina di dettaglio
+//            IssueController controller = fxmlLoader.getController();
+//            controller.setDatiIssue(issueSelezionata);
+//
+//            // Cambia la scena
+//            Scene scene = new Scene(root);
+//            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
+//            stage.setScene(scene);
+//            stage.setTitle("Dettaglio Issue #" + issueSelezionata.getId());
+//            stage.setWidth(1300);
+//            stage.setHeight(720);
+//            stage.centerOnScreen();
+//            stage.setResizable(true);
+//            stage.setMinWidth(1024);
+//            stage.setMinHeight(768);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("Errore apertura dettaglio: " + e.getMessage());
+//        }
+//    }
+//
+//    @FXML
+//    public void apriLeMieIssue() {
+//        try {
+//            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/personalissue-view.fxml"));
+//            Scene scene = new Scene(fxmlLoader.load());
+//            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
+//            stage.setScene(scene);
+//            stage.setTitle("BugBoard 26 - Le Mie Issue");
+//            stage.setWidth(1280);
+//            stage.setHeight(720);
+//            stage.centerOnScreen();
+//            stage.setResizable(true);
+//            stage.setMinWidth(1024);
+//            stage.setMinHeight(768);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("Errore nell'apertura della schermata Crea Issue: " + e.getMessage());
+//        }
+//    }
+//
     @FXML
     void apriMenuUtente(MouseEvent event) {
         if (menuUtente.isShowing()) {
@@ -232,21 +232,21 @@ public class DashboardController {
         }
         event.consume();
     }
-
-    private void effettuaLogout() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/login-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 400, 500);
-            Stage stage = (Stage) avatarCircle.getScene().getWindow();
-            stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.setResizable(false);
-            stage.show();
-
-            System.out.println("Logout effettuato con successo.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Errore durante il logout. Controlla il percorso del file FXML.");
-        }
-    }
+//
+//    private void effettuaLogout() {
+//        try {
+//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/login-view.fxml"));
+//            Scene scene = new Scene(fxmlLoader.load(), 400, 500);
+//            Stage stage = (Stage) avatarCircle.getScene().getWindow();
+//            stage.setScene(scene);
+//            stage.centerOnScreen();
+//            stage.setResizable(false);
+//            stage.show();
+//
+//            System.out.println("Logout effettuato con successo.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("Errore durante il logout. Controlla il percorso del file FXML.");
+//        }
+//    }
 }

@@ -66,22 +66,23 @@ public class LoginController {
         new Thread(loginTask).start();
     }
 
-
-
     // Metodo che permette l'apertura della dashboard
-    private void apriDashboard(Utente utenteLoggato) throws IOException {
+    private void apriDashboard (Utente utenteLoggato) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/dashboard-view.fxml"));
-        Parent root = fxmlLoader.load();
-        Stage stage = (Stage) emailField.getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("BugBoard 26 - Dashboard di " + utenteLoggato.getNome());
-        stage.setWidth(1280);
-        stage.setHeight(720);
-        stage.centerOnScreen();
-        stage.setResizable(true);
-        stage.setMinWidth(1024);
-        stage.setMinHeight(768);
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage dashboardStage = new Stage();
+        dashboardStage.setScene(scene);
+        dashboardStage.setTitle("BugBoard 26 - Dashboard");
+        dashboardStage.setResizable(true);
+        dashboardStage.setWidth(1280);
+        dashboardStage.setHeight(720);
+        dashboardStage.setMinWidth(1024);
+        dashboardStage.setMinHeight(720);
+        dashboardStage.centerOnScreen();
+        dashboardStage.show();
+
+        Stage loginStage = (Stage) emailField.getScene().getWindow();
+        loginStage.close();
     }
 
     // Metodo che mostra errore nel caso di login non andato a buon fine

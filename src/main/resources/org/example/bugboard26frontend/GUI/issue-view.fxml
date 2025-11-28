@@ -16,7 +16,7 @@
             <Label styleClass="logo-text" text="BugBoard 26" />
 
             <Region HBox.hgrow="ALWAYS" />
-            <Button onAction="#tornaIndietro" styleClass="btn-back" text="Indietro" />
+            <Button onAction="#apriDashboard" styleClass="btn-back" text="Indietro" />
 
         </HBox>
     </top>
@@ -148,8 +148,9 @@
         <VBox spacing="0" styleClass="sidebar">
             <padding><Insets top="20" /></padding>
 
-            <Button maxWidth="Infinity" styleClass="sidebar-btn, active" text="≡  Lista Issue" />
-            <Button maxWidth="Infinity" styleClass="sidebar-btn" text="≡ Le mie Issue" />
+            <Button onAction="#apriDashboard" maxWidth="Infinity" styleClass="sidebar-btn, active" text="≡  Lista Issue" />
+            <Button onAction="#apriLeMieIssue" maxWidth="Infinity" styleClass="sidebar-btn" text="≡ Le mie Issue" />
+            <Button onAction="#apriCreaNuovoUtente" prefHeight="40.0" prefWidth="200.0" styleClass="sidebar-btn" text="👤 Crea Utente" />
 
             <Region VBox.vgrow="ALWAYS" />
             <Region minWidth="200" />

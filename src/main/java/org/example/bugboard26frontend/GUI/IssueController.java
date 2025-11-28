@@ -1,18 +1,18 @@
 package org.example.bugboard26frontend.GUI;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.bugboard26frontend.Entita.Issue;
-import org.example.bugboard26frontend.Main; // Assicurati che questo import sia corretto per la tua classe Main/HelloApplication
+import org.example.bugboard26frontend.Entita.Utente;
 import javafx.event.ActionEvent;
-import java.io.IOException;
 
-public class IssueController {
 
+
+public class IssueController extends BaseController {
+
+    @FXML private TextField titoloField;
     @FXML private Label labelTitolo;
     @FXML private Label labelDescrizione;
     @FXML private Label badgePriorita;
@@ -72,21 +72,16 @@ public class IssueController {
     }
 
     @FXML
-    private void tornaIndietro(ActionEvent event) {
+    private void tornaIndietro (ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/dashboard-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-
-            // Recupera lo stage direttamente dal bottone che è stato cliccato
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("BugBoard 26 - Dashboard");
-            stage.show();
-        } catch (IOException e) {
+            Stage stage = (Stage) titoloField.getScene().getWindow();
+            apriDashboard(stage);
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Errore tornando indietro: " + e.getMessage());
         }
     }
 
-
+    public void setUtenteLoggato(Utente utenteLoggato) {
+    }
 }
