@@ -1,13 +1,14 @@
 package org.example.bugboard26frontend.GUI;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.bugboard26frontend.Entita.Issue;
 import org.example.bugboard26frontend.Entita.Utente;
 import javafx.event.ActionEvent;
-
+import org.example.bugboard26frontend.Main;
 
 
 public class IssueController extends BaseController {
@@ -83,5 +84,15 @@ public class IssueController extends BaseController {
     }
 
     public void setUtenteLoggato(Utente utenteLoggato) {
+    }
+
+    @FXML
+    private void apriAssegnazioneIssue(ActionEvent event) {
+        try{
+            cambiaScena(event, "assegnaissue-view.fxml", "Assegna Issue");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Errore caricamento vista: " + e.getMessage());
+        }
     }
 }

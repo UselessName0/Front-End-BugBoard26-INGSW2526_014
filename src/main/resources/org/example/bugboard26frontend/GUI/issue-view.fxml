@@ -7,7 +7,8 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="main-container" stylesheets="@StyleIssueDetail.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.IssueController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="main-container" stylesheets="@StyleIssueDetail.css"
+            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.IssueController">
 
     <top>
         <HBox alignment="CENTER_LEFT" spacing="15" styleClass="top-bar">
@@ -132,7 +133,7 @@
                             <Separator style="-fx-opacity: 0.1; -fx-background-color: white;" />
 
                             <VBox spacing="10">
-                                <Button maxWidth="Infinity" styleClass="btn-blue" text="Assegna a me" />
+                                <Button onAction="#apriAssegnazioneIssue" maxWidth="Infinity" styleClass="btn-blue" text="Assegna" />
                                 <Button maxWidth="Infinity" styleClass="btn-outline-red" text="Archivia Issue" />
                             </VBox>
 
