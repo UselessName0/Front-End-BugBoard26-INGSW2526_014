@@ -1,6 +1,7 @@
 package org.example.bugboard26frontend.APIServices;
 
 import org.example.bugboard26frontend.Entita.Issue;
+
 import org.example.bugboard26frontend.Enums.Stato;
 import org.example.bugboard26frontend.Enums.Tipo;
 
@@ -59,4 +60,184 @@ public class IssueService {
             throw new Exception("Errore ricerca" + response.statusCode());
         }
     }
+
+    public Issue getIssueById(Long id) throws Exception {
+        String url = api.getBaseUrl() + "/issues/" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return api.getMapper().readValue(
+                    response.body(),
+                    Issue.class);
+        } else  {
+            throw new Exception("Errore ottenendo issue con ID " + id + ": " + response.statusCode());
+        }
+    }
+
+    public Issue creaIssue(Issue nuovaIssue) throws Exception {
+        String url = api.getBaseUrl() + "/issues";
+
+        String requestBody = api.getMapper().writeValueAsString(nuovaIssue);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200 || response.statusCode() == 201) {
+            return api.getMapper().readValue(
+                    response.body(),
+                    Issue.class);
+        } else  {
+            throw new Exception("Errore creando issue: " + response.statusCode());
+        }
+    }
+
+    public Issue aggiornaIssue(Issue issueAggiornata) throws Exception {
+        String url = api.getBaseUrl() + "/issues/" + issueAggiornata.getId();
+
+        String requestBody = api.getMapper().writeValueAsString(issueAggiornata);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return api.getMapper().readValue(
+                    response.body(),
+                    Issue.class);
+        } else  {
+            throw new Exception("Errore aggiornando issue con ID " + issueAggiornata.getId() + ": " + response.statusCode());
+        }
+    }
+
+    public void eliminaIssue(Long id) throws Exception {
+        String url = api.getBaseUrl() + "/issues/" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .DELETE()
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            throw new Exception("Errore eliminando issue con ID " + id + ": " + response.statusCode());
+        }
+    }
+
+    public int contaIssueCreateDaUtente(Long userId) throws Exception {
+        String url = api.getBaseUrl() + "/issues/countPerUtente?userId=" + userId;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return Integer.parseInt(response.body());
+        } else  {
+            throw new Exception("Errore ottenendo il conteggio delle issue create dall'utente con ID " + userId + ": " + response.statusCode());
+        }
+    }
+
+    public Issue settaAssegnatario(Long issueId, Long userId) throws Exception {
+        String url = api.getBaseUrl() + "/issues/assegna/" + issueId + "?userId=" + userId;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return api.getMapper().readValue(
+                    response.body(),
+                    Issue.class);
+        } else  {
+            throw new Exception("Errore settando assegnatario per issue con ID " + issueId + ": " + response.statusCode());
+        }
+    }
+
+    public List<Issue> getIssueAssegnateA(Long userId, int page, int size) throws Exception {
+        String url = api.getBaseUrl() + "/issues/assigned?userId=" + userId + "&page=" + page + "&size=" + size;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return api.getMapper().readValue(
+                    response.body(),
+                    List.class);
+        } else  {
+            throw new Exception("Errore ottenendo le issue assegnate all'utente con ID " + userId + ": " + response.statusCode());
+        }
+    }
+
+    public Issue cambiaStato(Long issueId, Stato nuovoStato) throws Exception {
+        String url = api.getBaseUrl() + "/issues/" + issueId + "/status?nuovoStato=" + nuovoStato.name();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return api.getMapper().readValue(
+                    response.body(),
+                    Issue.class);
+        } else  {
+            throw new Exception("Errore cambiando stato per issue con ID " + issueId + ": " + response.statusCode());
+        }
+    }
+
+    public List<Issue> getIssueCreateDaUtente(Long userId) throws Exception {
+        String url = api.getBaseUrl() + "/issues/createdBy/" + userId;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return api.getMapper().readValue(
+                    response.body(),
+                    List.class);
+        } else  {
+            throw new Exception("Errore ottenendo le issue create dall'utente con ID " + userId + ": " + response.statusCode());
+        }
+    }
+
+
 }

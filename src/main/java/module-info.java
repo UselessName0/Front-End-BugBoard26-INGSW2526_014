@@ -37,4 +37,7 @@ module org.example.bugboard26frontend {
     opens org.example.bugboard26frontend.Entita to javafx.fxml, com.fasterxml.jackson.databind;
     exports org.example.bugboard26frontend.APIServices;
     opens org.example.bugboard26frontend.APIServices to com.fasterxml.jackson.databind, javafx.fxml;
+
+    //4. Pacchetto Enums
+    exports  org.example.bugboard26frontend.Enums;
 }
