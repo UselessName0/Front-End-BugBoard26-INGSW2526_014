@@ -56,4 +56,25 @@ public class CommentoService {
         }
     }
 
+    public Commento getAllCommentiUtente(Long idUtente) throws Exception {
+        String url = api.getBaseUrl() + "/commenti/Utente/" + idUtente;
+
+        String jsonBody = api.getMapper().writeValueAsString(idUtente);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer" + api.getAuthToken())
+                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return api.getMapper().readValue(response.body(), Commento.class);
+        } else {
+            throw new RuntimeException("Errore durante la creazione del commento: " + response.statusCode());
+        }
+    }
+
 }
