@@ -64,4 +64,32 @@ public class AuthService {
             return null;
         }
     }
+
+    public void Logout() throws Exception {
+        String token = api.getAuthToken();
+
+        if (token == null || token.isEmpty()) {
+            return;
+        }
+
+        String url = api.getBaseUrl() + "/users/auth/logout";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Authorization", "Bearer " + token)
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        api.setAuthToken(null);
+        api.setAdmin(false);
+        api.setCurrentUserId(null);
+
+        if(response.statusCode() == 200) {
+            System.out.println("[Chiamata API] Logout effettuato con successo.");
+        } else {
+            throw new RuntimeException("Errore durante il logout: " + response.statusCode());
+        }
+    }
 }

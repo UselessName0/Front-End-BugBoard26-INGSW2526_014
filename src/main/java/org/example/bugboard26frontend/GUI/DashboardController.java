@@ -232,9 +232,10 @@ public class DashboardController extends BaseController{
         }
         event.consume();
     }
-//
+
 //    private void effettuaLogout() {
 //        try {
+//            System.out.println("Effettuando logout...");
 //            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/login-view.fxml"));
 //            Scene scene = new Scene(fxmlLoader.load(), 400, 500);
 //            Stage stage = (Stage) avatarCircle.getScene().getWindow();

@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.bugboard26frontend.APIServices.AuthService;
 import org.example.bugboard26frontend.Entita.Issue;
 import org.example.bugboard26frontend.Entita.Utente;
 import org.example.bugboard26frontend.Main;
@@ -15,6 +16,7 @@ import java.io.IOException;
 public abstract class BaseController {
 
     protected Utente utenteLoggato;
+    private final AuthService authService = new AuthService();
 
     public void setUtenteLoggato(Utente utente) {
         this.utenteLoggato = utente;
@@ -89,6 +91,7 @@ public abstract class BaseController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/login-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
+            authService.Logout();
             stage.setMinWidth(0);
             stage.setMinHeight(0);
             stage.setScene(scene);
@@ -100,7 +103,7 @@ public abstract class BaseController {
             stage.centerOnScreen();
             stage.show();
             System.out.println("Logout effettuato.");
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
