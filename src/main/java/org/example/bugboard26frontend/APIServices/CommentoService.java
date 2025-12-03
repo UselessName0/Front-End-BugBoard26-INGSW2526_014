@@ -77,4 +77,88 @@ public class CommentoService {
         }
     }
 
+    public Commento aumentaMiPiace(Commento commentoAggiornato) throws Exception {
+        String url = api.getBaseUrl() + "/commenti/like/" + commentoAggiornato.getId();
+
+        String jsonBody = api.getMapper().writeValueAsString(commentoAggiornato);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + api.getAuthToken())
+                .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return api.getMapper().readValue(response.body(), Commento.class);
+        } else if (response.statusCode() == 401) {
+            throw new RuntimeException("Non sei loggato!");
+        } else {
+            throw new RuntimeException("Errore durante l'aggiornamento del like: " + response.statusCode());
+        }
+    }
+
+    public Commento togliMiPiace(Commento commentoAggiornato) throws Exception {
+        String url = api.getBaseUrl() + "/commenti/dislike/" + commentoAggiornato.getId();
+
+        String jsonBody = api.getMapper().writeValueAsString(commentoAggiornato);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + api.getAuthToken())
+                .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return api.getMapper().readValue(response.body(), Commento.class);
+        } else if (response.statusCode() == 401) {
+            throw new RuntimeException("Non sei loggato!");
+        } else {
+            throw new RuntimeException("Errore durante l'aggiornamento del unlike: " + response.statusCode());
+        }
+    }
+
+    public List<Commento> getCommentiByUser (Long userId) throws Exception {
+        String url = api.getBaseUrl() + "/commenti/utente/" + userId;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .GET()
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) {
+            return api.getMapper().readValue(
+                    response.body(),
+                    new TypeReference<List<Commento>>() {});
+        } else  {
+            throw new Exception("Errore nel recupero dei commenti dell'utente: " + response.statusCode());
+        }
+    }
+
+    public void EliminaCommento (Long id) throws Exception {
+        String url = api.getBaseUrl() + "/commenti/" + id;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + api.getAuthToken())
+                .DELETE()
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            throw new Exception("Errore eliminando commento con ID " + id + ": " + response.statusCode());
+        }
+    }
+
+
 }
