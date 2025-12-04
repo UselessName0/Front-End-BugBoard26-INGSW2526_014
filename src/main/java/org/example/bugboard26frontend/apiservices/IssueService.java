@@ -1,9 +1,10 @@
-package org.example.bugboard26frontend.APIServices;
+package org.example.bugboard26frontend.apiservices;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.example.bugboard26frontend.Entita.Issue;
-import org.example.bugboard26frontend.Enums.Stato;
-import org.example.bugboard26frontend.Enums.Tipo;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.example.bugboard26frontend.entita.Issue;
+import org.example.bugboard26frontend.enums.Stato;
+import org.example.bugboard26frontend.enums.Tipo;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpRequest;
@@ -182,10 +183,16 @@ public class IssueService {
         HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() >= 200 && response.statusCode() < 300) {
-            return api.getMapper().readValue(
-                    response.body(),
-                    new TypeReference<List<Issue>>() {}
-            );
+
+            JsonNode rootNode = api.getMapper().readTree(response.body());
+
+            if(rootNode.has("content")) {
+                JsonNode contentNode = rootNode.get("content");
+                return api.getMapper().convertValue(contentNode, new TypeReference<List<Issue>>() {});
+            } else {
+                return api.getMapper().convertValue(rootNode, new TypeReference<List<Issue>>() {});
+            }
+
         } else {
             throw new Exception("Errore API (" + response.statusCode() + "): " + response.body());
         }

@@ -1,7 +1,5 @@
 package org.example.bugboard26frontend.GUI;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
@@ -11,8 +9,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.example.bugboard26frontend.Entita.Issue;
-import org.example.bugboard26frontend.Entita.Utente;
+import org.example.bugboard26frontend.entita.Issue;
+import org.example.bugboard26frontend.entita.Utente;
 
 public class AssegnaIssueController extends BaseController {
 

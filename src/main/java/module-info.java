@@ -33,11 +33,11 @@ module org.example.bugboard26frontend {
 
     // 3. Pacchetto Entita (Dove ci sono Utente, ApiService...)
     // FONDAMENTALE: 'opens' serve anche a Jackson per trasformare il JSON in Oggetti
-    exports org.example.bugboard26frontend.Entita;
-    opens org.example.bugboard26frontend.Entita to javafx.fxml, com.fasterxml.jackson.databind;
-    exports org.example.bugboard26frontend.APIServices;
-    opens org.example.bugboard26frontend.APIServices to com.fasterxml.jackson.databind, javafx.fxml;
+    exports org.example.bugboard26frontend.entita;
+    opens org.example.bugboard26frontend.entita to javafx.fxml, com.fasterxml.jackson.databind;
+    exports org.example.bugboard26frontend.apiservices;
+    opens org.example.bugboard26frontend.apiservices to com.fasterxml.jackson.databind, javafx.fxml;
 
     //4. Pacchetto Enums
-    exports  org.example.bugboard26frontend.Enums;
+    exports  org.example.bugboard26frontend.enums;
 }

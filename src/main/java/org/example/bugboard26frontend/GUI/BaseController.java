@@ -6,9 +6,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.bugboard26frontend.APIServices.AuthService;
-import org.example.bugboard26frontend.Entita.Issue;
-import org.example.bugboard26frontend.Entita.Utente;
+import org.example.bugboard26frontend.apiservices.AuthService;
+import org.example.bugboard26frontend.entita.Issue;
+import org.example.bugboard26frontend.entita.Utente;
 import org.example.bugboard26frontend.Main;
 
 import java.io.IOException;
@@ -91,7 +91,7 @@ public abstract class BaseController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/login-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
-            authService.Logout();
+            authService.logout();
             stage.setMinWidth(0);
             stage.setMinHeight(0);
             stage.setScene(scene);

@@ -1,17 +1,8 @@
-package org.example.bugboard26frontend.APIServices;
+package org.example.bugboard26frontend.apiservices;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.bugboard26frontend.Entita.Issue;
-import org.example.bugboard26frontend.Entita.Utente;
 
-import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ApiClient {
 

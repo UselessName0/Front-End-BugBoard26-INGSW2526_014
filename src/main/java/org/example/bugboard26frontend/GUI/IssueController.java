@@ -1,14 +1,12 @@
 package org.example.bugboard26frontend.GUI;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.bugboard26frontend.Entita.Issue;
-import org.example.bugboard26frontend.Entita.Utente;
+import org.example.bugboard26frontend.entita.Issue;
+import org.example.bugboard26frontend.entita.Utente;
 import javafx.event.ActionEvent;
-import org.example.bugboard26frontend.Main;
 
 
 public class IssueController extends BaseController {

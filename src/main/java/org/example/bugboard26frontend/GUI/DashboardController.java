@@ -3,13 +3,11 @@ package org.example.bugboard26frontend.GUI;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -18,16 +16,22 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import org.example.bugboard26frontend.APIServices.ApiClient;
-import org.example.bugboard26frontend.Entita.Issue;
-import org.example.bugboard26frontend.Entita.Utente;
-import org.example.bugboard26frontend.Main;
+import org.example.bugboard26frontend.apiservices.ApiClient;
+import org.example.bugboard26frontend.apiservices.IssueService;
+import org.example.bugboard26frontend.entita.Issue;
+import org.example.bugboard26frontend.entita.Utente;
+import org.example.bugboard26frontend.enums.Stato;
+import org.example.bugboard26frontend.enums.Tipo;
+import org.example.bugboard26frontend.enums.Priorita;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardController extends BaseController{
 
+    @FXML private Button ButtonCerca;
+    @FXML private ComboBox<Tipo> tipoComboBox;
+    @FXML private ComboBox<Stato> statoComboBox;
+    @FXML private TextField searchField;
     @FXML private TableView<Issue> tabellaIssue;
     @FXML private TableColumn<Issue, String> colTitolo;
     @FXML private TableColumn<Issue, String> colAutore;
@@ -37,12 +41,16 @@ public class DashboardController extends BaseController{
     @FXML private TableColumn<Issue, String> colData;
     @FXML private Circle avatarCircle;
 
+
     private ContextMenu menuUtente;
     private final ApiClient apiService = ApiClient.getApiClient();
+    private final IssueService issueService = new IssueService();
 
     // Metodo per l'inizializzazione della tabella centrale (da modificare ovviamente)
     @FXML
-    public void initialize() {
+    public void initialize() throws Exception {
+        statoComboBox.getItems().setAll(Stato.values());
+        tipoComboBox.getItems().setAll(Tipo.values());
         colTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
         colPriorita.setCellValueFactory(new PropertyValueFactory<>("priorita"));
         colStato.setCellValueFactory(new PropertyValueFactory<>("stato"));
@@ -50,8 +58,8 @@ public class DashboardController extends BaseController{
         colData.setCellValueFactory(new PropertyValueFactory<>("dataCreazione"));
         // Se autore è null perchè magari gli è stata tolta l'assegnazione (rimane comunque aperta ?)
         colAutore.setCellValueFactory(cellData -> {
-            if (cellData.getValue().getAssegnatario() != null) {
-                return new SimpleStringProperty(cellData.getValue().getAssegnatario().getEmail()); // O getNome()
+            if (cellData.getValue().getUtente() != null) {
+                return new SimpleStringProperty(cellData.getValue().getUtente().getNome() + " " + cellData.getValue().getUtente().getCognome()); // O getNome()
             } else {
                 return new SimpleStringProperty("---");
             }
@@ -68,13 +76,13 @@ public class DashboardController extends BaseController{
                     Label badge = new Label(item);
                     String baseStyle = "-fx-text-fill: #000000; -fx-font-weight: bold; -fx-padding: 3 10 3 10; -fx-background-radius: 5;";
                     switch (item.toUpperCase()) {
-                        case "HIGH":
+                        case "ALTA":
                             badge.setStyle(baseStyle + "-fx-background-color: #ef4444;");
                             break; // Rosso
-                        case "MEDIUM":
+                        case "MEDIA":
                             badge.setStyle(baseStyle + "-fx-background-color: #f59e0b; -fx-text-fill: #000000;");
                             break; // Arancione
-                        case "LOW":
+                        case "BASSA":
                             badge.setStyle(baseStyle + "-fx-background-color: #10b981;");
                             break; // Verde
                         default:
@@ -116,113 +124,64 @@ public class DashboardController extends BaseController{
             }
         });
 
+        ButtonCerca.setOnMouseClicked(e -> {
+            effettuaRicerca();
+        });
+
+        ButtonCerca.fire();
+
         // Carichiamo i dati finti per ora
-        caricaDatiFinti();
+        caricaDatiIssue();
     }
 
-    // Metodo (da modificare) per caricare dati finti sulla tabella
-    private void caricaDatiFinti() {
-        List<Issue> listaFinta = new ArrayList<>();
-        Utente u1 = new Utente();
-        u1.setEmail("mario.rossi@dev.it");
-        Utente u2 = new Utente();
-        u2.setEmail("luigi.verdi@design.it");
-        Utente u3 = new Utente();
-        u3.setEmail("admin@bugboard.com");
-        listaFinta.add(creaIssue(1L, "Login non funzionante", "BUG", "HIGH", "TO DO", "2025-10-05", null));
-        listaFinta.add(creaIssue(2L, "Aggiornare colori sidebar", "FEATURE", "LOW", "IN_PROGRESS", "2025-10-06", null));
-        listaFinta.add(creaIssue(3L, "Errore esportazione PDF", "BUG", "MEDIUM", "TO DO", "2025-10-08", null));
-        listaFinta.add(creaIssue(4L, "Manca documentazione API", "DOCUMENTATION", "HIGH", "DONE", "2025-10-01", null));
-        listaFinta.add(creaIssue(5L, "Crash con immagini > 5MB", "BUG", "HIGH", "TO DO", "2025-10-09", null));
-        Utente uTest = new Utente();
-        uTest.setEmail("admin@test.com");
-        listaFinta.add(creaIssue(6L, "Esempio con autore", "QUESTION", "LOW", "DONE", "2025-09-25", uTest));
+    public void effettuaRicerca() {
+
+        String testoRicerca = searchField.getText();
+        Stato statoSelezionato = statoComboBox.getValue();
+        Tipo tipoSelezionato = tipoComboBox.getValue();
+
+        ButtonCerca.setDisable(true);
+        tabellaIssue.setPlaceholder(new Label("Caricamento in corso..."));
+
+        Task<List<Issue>> task = new Task<>() {
+            @Override
+            protected List<Issue> call() throws Exception {
+                return issueService.getIssues(testoRicerca, statoSelezionato, tipoSelezionato, "data", "desc", 0, 16);
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            List<Issue> issues = task.getValue();
+
+            tabellaIssue.setItems(FXCollections.observableArrayList(issues));
+
+            ButtonCerca.setDisable(false);
+        });
+
+        task.setOnFailed(e -> {
+            Throwable errore = task.getException();
+            errore.printStackTrace();
+
+            tabellaIssue.setPlaceholder(new Label("Errore durante il caricamento delle issue."));
+            ButtonCerca.setDisable(false);
+        });
+
+        new Thread(task).start();
+
+    };
+
+
+    private void caricaDatiIssue() throws Exception {
+        String testoRicerca = searchField.getText();
+        Stato statoSelezionato = statoComboBox.getValue();
+        Tipo tipoSelezionato = tipoComboBox.getValue();
+
+        List<Issue> listaFinta = issueService.getIssues(testoRicerca, statoSelezionato, tipoSelezionato, "data", "desc", 0, 16);
         ObservableList<Issue> datiGrafici = FXCollections.observableArrayList(listaFinta);
         tabellaIssue.setItems(datiGrafici);
     }
 
-    // Metodo (da mofidicare) per la creazione di una issue
-    private Issue creaIssue(Long id, String titolo, String tipo, String priorita, String stato, String data, Utente autore) {
-        Issue i = new Issue();
-        i.setId(id);
-        i.setTitolo(titolo);
-        i.setTipo(tipo);
-        i.setPriorita(priorita);
-        i.setStato(stato);
-        i.setDataCreazione(data);
-        i.setAssegnatario(autore);
-        return i;
-    }
 
-//    // Metodo per l'apertura dello stage di creazione di una nuova issue
-//    @FXML
-//    public void apriCreaIssue() {
-//        try {
-//            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/createissue-view.fxml"));
-//            Scene scene = new Scene(fxmlLoader.load());
-//            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
-//            stage.setScene(scene);
-//            stage.setTitle("BugBoard 26 - Crea Nuova Issue");
-//            stage.setWidth(1280);
-//            stage.setHeight(720);
-//            stage.centerOnScreen();
-//            stage.setResizable(true);
-//            stage.setMinWidth(1024);
-//            stage.setMinHeight(768);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Errore nell'apertura della schermata Crea Issue: " + e.getMessage());
-//        }
-//    }
-//
-//    // --- METODO PER APRIRE LA NUOVA PAGINA ---
-//    public void apriDettaglioIssue(Issue issueSelezionata) {
-//        try {
-//            // Carica il file FXML che abbiamo appena rifatto uguale al mockup
-//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/issue-view.fxml"));
-//            Parent root = fxmlLoader.load();
-//
-//            // Passa i dati al controller della pagina di dettaglio
-//            IssueController controller = fxmlLoader.getController();
-//            controller.setDatiIssue(issueSelezionata);
-//
-//            // Cambia la scena
-//            Scene scene = new Scene(root);
-//            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
-//            stage.setScene(scene);
-//            stage.setTitle("Dettaglio Issue #" + issueSelezionata.getId());
-//            stage.setWidth(1300);
-//            stage.setHeight(720);
-//            stage.centerOnScreen();
-//            stage.setResizable(true);
-//            stage.setMinWidth(1024);
-//            stage.setMinHeight(768);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Errore apertura dettaglio: " + e.getMessage());
-//        }
-//    }
-//
-//    @FXML
-//    public void apriLeMieIssue() {
-//        try {
-//            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/personalissue-view.fxml"));
-//            Scene scene = new Scene(fxmlLoader.load());
-//            Stage stage = (Stage) tabellaIssue.getScene().getWindow();
-//            stage.setScene(scene);
-//            stage.setTitle("BugBoard 26 - Le Mie Issue");
-//            stage.setWidth(1280);
-//            stage.setHeight(720);
-//            stage.centerOnScreen();
-//            stage.setResizable(true);
-//            stage.setMinWidth(1024);
-//            stage.setMinHeight(768);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Errore nell'apertura della schermata Crea Issue: " + e.getMessage());
-//        }
-//    }
-//
     @FXML
     void apriMenuUtente(MouseEvent event) {
         if (menuUtente.isShowing()) {
@@ -232,21 +191,7 @@ public class DashboardController extends BaseController{
         }
         event.consume();
     }
-//
-//    private void effettuaLogout() {
-//        try {
-//            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bugboard26frontend/GUI/login-view.fxml"));
-//            Scene scene = new Scene(fxmlLoader.load(), 400, 500);
-//            Stage stage = (Stage) avatarCircle.getScene().getWindow();
-//            stage.setScene(scene);
-//            stage.centerOnScreen();
-//            stage.setResizable(false);
-//            stage.show();
-//
-//            System.out.println("Logout effettuato con successo.");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Errore durante il logout. Controlla il percorso del file FXML.");
-//        }
-//    }
+
+
+
 }

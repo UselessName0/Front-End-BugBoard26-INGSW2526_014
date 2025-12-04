@@ -10,6 +10,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.Cursor?>
 
+<?import org.example.bugboard26frontend.enums.Stato?>
 <BorderPane styleClass="main-container" stylesheets="@StyleGeneric.css"
             xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.DashboardController">
 
@@ -24,30 +25,16 @@
             <!-- Filtri a Tendina -->
             <VBox spacing="2">
                 <!-- Filtro Tipo -->
-                <ComboBox prefWidth="120" promptText="Filtra per tipo" styleClass="filter-combo">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Bug" />
-                            <String fx:value="Feature" />
-                            <String fx:value="Documentazione" />
-                        </FXCollections>
-                    </items>
+                <ComboBox fx:id="tipoComboBox" prefWidth="120" promptText="Filtra per tipo" styleClass="filter-combo">
                 </ComboBox>
 
                 <!-- Filtro Stato -->
-                <ComboBox prefWidth="120" promptText="Filtra per stato" styleClass="filter-combo">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="TO DO" />
-                            <String fx:value="In lavorazione" />
-                            <String fx:value="Chiuso" />
-                        </FXCollections>
-                    </items>
+                <ComboBox fx:id="statoComboBox" prefWidth="120" promptText="Filtra per stato" styleClass="filter-combo">
                 </ComboBox>
             </VBox>
 
              <!-- ComboBox Ricerca -->
-             <ComboBox promptText="Issues" styleClass="search-combo">
+             <ComboBox fx:id="ComboBox" promptText="Issues" styleClass="search-combo">
                  <items>
                      <FXCollections fx:factory="observableArrayList">
                          <String fx:value="Issue" />
@@ -59,8 +46,8 @@
             <!-- Barra Ricerca -->
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="411.0" styleClass="search-box-container">
 
-                <TextField promptText="Cerca..." styleClass="search-field" HBox.hgrow="ALWAYS" />
-                <Button styleClass="search-button" text="Cerca" />
+                <TextField fx:id="searchField" promptText="Cerca..." styleClass="search-field" HBox.hgrow="ALWAYS" />
+                <Button fx:id="ButtonCerca" styleClass="search-button" text="Cerca" />
             </HBox>
 
             <Region HBox.hgrow="ALWAYS" />

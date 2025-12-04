@@ -1,4 +1,4 @@
-package org.example.bugboard26frontend.Entita;
+package org.example.bugboard26frontend.entita;
 
 public class Commento {
 

@@ -1,4 +1,4 @@
-package org.example.bugboard26frontend.Entita;
+package org.example.bugboard26frontend.entita;
 
 public class Utente {
 
@@ -9,7 +9,7 @@ public class Utente {
     private String email;
     private String password;
     private boolean admin;
-    private String SessioneToken;
+    private String sessioneToken;
 
 
     //COSTRUTTORI
@@ -66,10 +66,10 @@ public class Utente {
     }
 
     public String getSessioneToken() {
-        return SessioneToken;
+        return sessioneToken;
     }
 
     public void setSessioneToken(String sessioneToken) {
-        SessioneToken = sessioneToken;
+        this.sessioneToken = sessioneToken;
     }
 }

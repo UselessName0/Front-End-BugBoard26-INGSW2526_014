@@ -1,8 +1,7 @@
-package org.example.bugboard26frontend.APIServices;
+package org.example.bugboard26frontend.apiservices;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import eu.hansolo.fx.countries.tools.Api;
-import org.example.bugboard26frontend.Entita.Commento;
+import org.example.bugboard26frontend.entita.Commento;
 
 import java.net.URI;
 import java.net.http.HttpRequest;
@@ -143,7 +142,7 @@ public class CommentoService {
         }
     }
 
-    public void EliminaCommento (Long id) throws Exception {
+    public void eliminaCommento(Long id) throws Exception {
         String url = api.getBaseUrl() + "/commenti/" + id;
 
         HttpRequest request = HttpRequest.newBuilder()

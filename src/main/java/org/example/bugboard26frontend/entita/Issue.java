@@ -1,6 +1,4 @@
-package org.example.bugboard26frontend.Entita;
-
-import java.time.LocalDateTime;
+package org.example.bugboard26frontend.entita;
 
 public class Issue {
 

@@ -1,7 +1,7 @@
-package org.example.bugboard26frontend.APIServices;
+package org.example.bugboard26frontend.apiservices;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.example.bugboard26frontend.Entita.Utente;
+import org.example.bugboard26frontend.entita.Utente;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;

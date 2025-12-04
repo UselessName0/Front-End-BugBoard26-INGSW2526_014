@@ -7,11 +7,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.example.bugboard26frontend.APIServices.ApiClient;
-import org.example.bugboard26frontend.Entita.Issue;
+import org.example.bugboard26frontend.apiservices.ApiClient;
+import org.example.bugboard26frontend.entita.Issue;
 import java.io.File;
-
-import static org.example.bugboard26frontend.APIServices.ApiClient.getApiClient;
 
 public class CreateIssueController extends BaseController {
     @FXML private TextField titoloField;

@@ -1,4 +1,4 @@
-package org.example.bugboard26frontend.Enums;
+package org.example.bugboard26frontend.enums;
 
 public enum Priorita {
     BASSA,

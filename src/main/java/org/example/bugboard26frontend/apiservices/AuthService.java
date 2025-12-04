@@ -1,7 +1,7 @@
-package org.example.bugboard26frontend.APIServices;
+package org.example.bugboard26frontend.apiservices;
 
-import org.example.bugboard26frontend.Entita.LoginResponse;
-import org.example.bugboard26frontend.Entita.Utente;
+import org.example.bugboard26frontend.entita.LoginResponse;
+import org.example.bugboard26frontend.entita.Utente;
 
 import java.net.URI;
 import java.net.http.HttpRequest;
@@ -13,7 +13,7 @@ public class AuthService {
 
     private final ApiClient api = ApiClient.getApiClient();
 
-    public boolean Login(String email, String password) throws Exception {
+    public boolean login(String email, String password) throws Exception {
 
         Map<String, String> credenziali = new HashMap<>();
         credenziali.put("email", email);
@@ -65,7 +65,7 @@ public class AuthService {
         }
     }
 
-    public void Logout() throws Exception {
+    public void logout() throws Exception {
         String token = api.getAuthToken();
 
         if (token == null || token.isEmpty()) {

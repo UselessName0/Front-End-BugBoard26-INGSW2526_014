@@ -3,19 +3,16 @@ package org.example.bugboard26frontend.GUI;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.bugboard26frontend.APIServices.ApiClient;
-import org.example.bugboard26frontend.APIServices.AuthService;
-import org.example.bugboard26frontend.Entita.Utente;
+import org.example.bugboard26frontend.apiservices.AuthService;
+import org.example.bugboard26frontend.entita.Utente;
 import org.example.bugboard26frontend.Main;
 
 import java.io.IOException;
-import java.security.AuthProvider;
 
 public class LoginController {
 
@@ -37,7 +34,7 @@ public class LoginController {
         Task<Boolean> loginTask = new Task<>() {
             @Override
             protected Boolean call() throws  Exception {
-                return authService.Login(email, password);
+                return authService.login(email, password);
             }
         };
 
