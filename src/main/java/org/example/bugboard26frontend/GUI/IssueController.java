@@ -2,6 +2,7 @@ package org.example.bugboard26frontend.GUI;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -21,12 +22,12 @@ import java.util.List;
 public class IssueController extends BaseController {
 
     @FXML private VBox commentsContainer;
-    @FXML private VBox commentBox;
     @FXML private TextField titoloField;
     @FXML private Label labelTitolo;
     @FXML private Label labelDescrizione;
     @FXML private Label badgePriorita;
     @FXML private Label badgeTipo;
+    @FXML private TextArea textAreaCommento;
 
 
     private CommentoService commentoService = new CommentoService();
@@ -112,58 +113,71 @@ public class IssueController extends BaseController {
 
     private void caricaCommenti() throws Exception {
         List<Commento> commenti = commentoService.getCommentiByIssueId(issueCorrente.getId());
-
         commentsContainer.getChildren().clear();
 
         for(Commento commento : commenti) {
-            // 1. Card Principale
             VBox cardCommento = new VBox();
             cardCommento.setSpacing(5);
             cardCommento.getStyleClass().add("comment-box");
 
-            // 2. Autore
-            Label autoreLabel = new Label(commento.getUtente().getNome() + " " + commento.getUtente().getCognome() + ":");
+            String testoAutore;
+            if (commento.getUtente() != null) {
+                testoAutore = commento.getUtente().getNome() + " " + commento.getUtente().getCognome() + ":";
+            } else {
+                testoAutore = "Utente sconosciuto:";
+            }
+            Label autoreLabel = new Label(testoAutore);
             autoreLabel.setStyle("-fx-text-fill: #3b82f6; -fx-font-weight: bold;");
 
-            // 3. Contenuto
             Label contenutoLabel = new Label(commento.getContenuto());
             contenutoLabel.setStyle("-fx-text-fill: #cbd5e1;");
             contenutoLabel.setWrapText(true);
 
-            // --- 4. AREA MI PIACE (Ricostruzione dell'HBox dell'FXML) ---
             HBox likeBox = new HBox();
             likeBox.setAlignment(Pos.CENTER_LEFT);
             likeBox.setSpacing(8);
-            likeBox.setPadding(new Insets(5, 0, 0, 0)); // Padding top="5"
+            likeBox.setPadding(new Insets(5, 0, 0, 0));
 
-            // Bottone Cuore
             Button btnLike = new Button("❤ Mi piace");
-            // Copio esattamente lo stile che avevi nell'FXML
             btnLike.setStyle("-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 0; -fx-cursor: hand; -fx-font-size: 11px;");
 
-            // Azione (Opzionale: per ora stampa solo in console)
             btnLike.setOnAction(e -> {
-                System.out.println("Hai messo like al commento di " + commento.getUtente().getCognome());
-                // Qui in futuro chiamerai il service per salvare il like
+                if (commento.getUtente() != null) {
+                    System.out.println("Hai messo like al commento di " + commento.getUtente().getCognome());
+                } else {
+                    System.out.println("Hai messo like a un commento anonimo");
+                }
             });
 
-            // Numero Like (Contatore)
-            // Se nel DB hai un campo "numeroLike", usa: String.valueOf(commento.getNumeroLike())
-            // Per ora metto "0" fisso o un numero random per bellezza
             Label lblNumeroLike = new Label("0");
             lblNumeroLike.setStyle("-fx-text-fill: #64748b; -fx-font-size: 11px;");
-
-            // Aggiungiamo bottone e numero alla riga orizzontale
             likeBox.getChildren().addAll(btnLike, lblNumeroLike);
-            // -------------------------------------------------------------
 
-            // 5. Aggiungiamo tutto alla card verticale
             cardCommento.getChildren().addAll(autoreLabel, contenutoLabel, likeBox);
-
-            // 6. Aggiungiamo la card alla lista principale
             commentsContainer.getChildren().add(cardCommento);
         }
+    }
 
+    @FXML
+    private void inserisciCommento(ActionEvent event) {
+        String testo = textAreaCommento.getText();
+        if (testo == null || testo.trim().isEmpty()) {
+            System.out.println("Il commento non può essere vuoto!");
+            return;
+        }
+        try {
+            Commento nuovoCommento = new Commento();
+            nuovoCommento.setContenuto(testo);
+            nuovoCommento.setIssue(this.issueCorrente);
+            nuovoCommento.setUtente(this.utenteLoggato);
+            commentoService.creaCommento(nuovoCommento);
+            textAreaCommento.clear();
+            caricaCommenti();
+            System.out.println("Commento inserito con successo!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Errore durante l'inserimento del commento: " + e.getMessage());
+        }
     }
 
 

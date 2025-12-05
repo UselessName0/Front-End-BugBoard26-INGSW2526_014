@@ -3,6 +3,7 @@ package org.example.bugboard26frontend.GUI;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -66,7 +67,17 @@ public class LoginController {
     // Metodo che permette l'apertura della dashboard
     private void apriDashboard (Utente utenteLoggato) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/dashboard-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Parent root = fxmlLoader.load();
+        DashboardController dashboardController = fxmlLoader.getController();
+
+        if (utenteLoggato != null) {
+            dashboardController.setUtenteLoggato(utenteLoggato);
+            System.out.println("Login: Utente passato alla Dashboard -> " + utenteLoggato.getNome());
+        } else {
+            System.out.println("Login: ERRORE! Utente è null al momento del login.");
+        }
+
+        Scene scene = new Scene(root);
         Stage dashboardStage = new Stage();
         dashboardStage.setScene(scene);
         dashboardStage.setTitle("BugBoard 26 - Dashboard");

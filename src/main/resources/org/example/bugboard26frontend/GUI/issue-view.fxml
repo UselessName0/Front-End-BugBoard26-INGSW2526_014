@@ -7,8 +7,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 
-<BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="main-container" stylesheets="@StyleIssueDetail.css"
-            xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.IssueController">
+<BorderPane prefHeight="720.0" prefWidth="1280.0" styleClass="main-container" stylesheets="@StyleIssueDetail.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bugboard26frontend.GUI.IssueController">
 
     <top>
         <HBox alignment="CENTER_LEFT" spacing="15" styleClass="top-bar">
@@ -45,7 +44,7 @@
                                     </Circle>
 
                                 </VBox>
-                                <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" text="on: 05/10/25 (11.40)" textFill="WHITE" />
+                                <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" text="on: 05/10/25" textFill="WHITE" />
                             </HBox>
 
                             <Label fx:id="labelTitolo" styleClass="issue-title" text="Il sistema genera un errore codice #501250" wrapText="true" />
@@ -66,25 +65,13 @@
                                         <padding>
                                             <Insets right="10" />
                                         </padding>
-
-                                        <VBox fx:id="commentBox" spacing="5" styleClass="comment-box">
-                                            <Label style="-fx-text-fill: #3b82f6; -fx-font-weight: bold;" text="Dev Team:" />
-                                            <Label style="-fx-text-fill: #cbd5e1;" wrapText="true" />
-
-                                            <HBox alignment="CENTER_LEFT" spacing="8">
-                                                <padding><Insets top="5" /></padding>
-                                                <Button style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 0; -fx-cursor: hand; -fx-font-size: 11px;" text="❤ Mi piace" />
-                                                <Label style="-fx-text-fill: #64748b; -fx-font-size: 11px;" text="2" />
-                                            </HBox>
-                                        </VBox>
-
                                     </VBox>
                                 </content>
                             </ScrollPane>
 
                             <VBox spacing="10">
-                                <TextArea prefHeight="80" promptText="Scrivi un commento..." styleClass="dark-input" wrapText="true" />
-                                <Button styleClass="btn-green" text="Invia Commento" />
+                                <TextArea fx:id="textAreaCommento" prefHeight="80" promptText="Scrivi un commento..." styleClass="dark-input" wrapText="true" />
+                                <Button onAction="#inserisciCommento" styleClass="btn-green" text="Invia Commento" />
                             </VBox>
                         </VBox>
                     </VBox>
@@ -111,7 +98,7 @@
                             <Separator style="-fx-opacity: 0.1; -fx-background-color: white;" />
 
                             <VBox spacing="10">
-                                <Button onAction="#apriAssegnazioneIssue" maxWidth="Infinity" styleClass="btn-blue" text="Assegna" />
+                                <Button maxWidth="Infinity" onAction="#apriAssegnazioneIssue" styleClass="btn-blue" text="Assegna" />
                                 <Button maxWidth="Infinity" styleClass="btn-outline-red" text="Archivia Issue" />
                             </VBox>
 
@@ -127,8 +114,8 @@
         <VBox spacing="0" styleClass="sidebar">
             <padding><Insets top="20" /></padding>
 
-            <Button onAction="#apriDashboard" maxWidth="Infinity" styleClass="sidebar-btn, active" text="≡  Lista Issue" />
-            <Button onAction="#apriLeMieIssue" maxWidth="Infinity" styleClass="sidebar-btn" text="≡ Le mie Issue" />
+            <Button maxWidth="Infinity" onAction="#apriDashboard" styleClass="sidebar-btn, active" text="≡  Lista Issue" />
+            <Button maxWidth="Infinity" onAction="#apriLeMieIssue" styleClass="sidebar-btn" text="≡ Le mie Issue" />
             <Button onAction="#apriCreaNuovoUtente" prefHeight="40.0" prefWidth="200.0" styleClass="sidebar-btn" text="👤 Crea Utente" />
 
             <Region VBox.vgrow="ALWAYS" />

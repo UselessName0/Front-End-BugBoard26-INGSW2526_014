@@ -43,7 +43,6 @@ public class DashboardController extends BaseController{
 
 
     private ContextMenu menuUtente;
-    private final ApiClient apiService = ApiClient.getApiClient();
     private final IssueService issueService = new IssueService();
 
     // Metodo per l'inizializzazione della tabella centrale (da modificare ovviamente)
