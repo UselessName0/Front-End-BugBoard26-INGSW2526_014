@@ -8,8 +8,18 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.bugboard26frontend.apiservices.ApiClient;
+import org.example.bugboard26frontend.apiservices.IssueService;
 import org.example.bugboard26frontend.entita.Issue;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.example.bugboard26frontend.enums.Priorita;
+import org.example.bugboard26frontend.enums.Tipo;
+
 
 public class CreateIssueController extends BaseController {
     @FXML private TextField titoloField;
@@ -19,7 +29,22 @@ public class CreateIssueController extends BaseController {
     @FXML private Label labelNomeFile;
     private File fileSelezionato;
     private ApiClient apiClient = ApiClient.getApiClient();
+    private IssueService issueService = new IssueService();
 
+
+    public void initialize() {
+       List<String> listaTipi = new ArrayList<>();
+       for(Tipo tipo : Tipo.values()) {
+           listaTipi.add(tipo.name());
+       }
+       tipoCombo.getItems().addAll(listaTipi);
+
+       List<String> listaPriorita = new ArrayList<>();
+         for(Priorita priorita : Priorita.values()) {
+              listaPriorita.add(priorita.name());
+         }
+         prioritaCombo.getItems().addAll(listaPriorita);
+    }
     // Metodo che permette la selezione di tipi specifici di file (foto)
     @FXML
     protected void selezionaFile() {
@@ -52,8 +77,8 @@ public class CreateIssueController extends BaseController {
             nuovaIssue.setTipo(tipo);
             nuovaIssue.setPriorita(priorita);
             nuovaIssue.setDescrizione(descrizione);
-            nuovaIssue.setStato("TO DO");
-          //  apiClient.creaIssue(nuovaIssue);
+            nuovaIssue.setUtente(apiClient.getUtenteLoggato());
+            issueService.creaIssue(nuovaIssue);
             System.out.println("Issue pubblicata con successo!");
             Stage stage =  (Stage) labelNomeFile.getScene().getWindow();
             apriDashboard(stage);

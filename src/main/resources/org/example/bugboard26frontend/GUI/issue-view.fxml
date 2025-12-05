@@ -67,36 +67,14 @@
                                             <Insets right="10" />
                                         </padding>
 
-                                        <VBox spacing="5" styleClass="comment-box">
+                                        <VBox fx:id="commentBox" spacing="5" styleClass="comment-box">
                                             <Label style="-fx-text-fill: #3b82f6; -fx-font-weight: bold;" text="Dev Team:" />
-                                            <Label style="-fx-text-fill: #cbd5e1;" text="Stiamo indagando. Sembra un problema di memoria Java Heap." wrapText="true" />
+                                            <Label style="-fx-text-fill: #cbd5e1;" wrapText="true" />
 
                                             <HBox alignment="CENTER_LEFT" spacing="8">
                                                 <padding><Insets top="5" /></padding>
                                                 <Button style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 0; -fx-cursor: hand; -fx-font-size: 11px;" text="❤ Mi piace" />
                                                 <Label style="-fx-text-fill: #64748b; -fx-font-size: 11px;" text="2" />
-                                            </HBox>
-                                        </VBox>
-
-                                        <VBox spacing="5" styleClass="comment-box">
-                                            <Label style="-fx-text-fill: #3b82f6; -fx-font-weight: bold;" text="User 1:" />
-                                            <Label style="-fx-text-fill: #cbd5e1;" text="Grazie, attendo aggiornamenti. Ho notato che succede solo con i PDF." wrapText="true" />
-
-                                            <HBox alignment="CENTER_LEFT" spacing="8">
-                                                <padding><Insets top="5" /></padding>
-                                                <Button style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 0; -fx-cursor: hand; -fx-font-size: 11px;" text="❤ Mi piace" />
-                                                <Label style="-fx-text-fill: #64748b; -fx-font-size: 11px;" text="1" />
-                                            </HBox>
-                                        </VBox>
-
-                                        <VBox spacing="5" styleClass="comment-box">
-                                            <Label style="-fx-text-fill: #3b82f6; -fx-font-weight: bold;" text="Dev Team:" />
-                                            <Label style="-fx-text-fill: #cbd5e1;" text="Ricevuto. Stiamo controllando il parser PDF." wrapText="true" />
-
-                                            <HBox alignment="CENTER_LEFT" spacing="8">
-                                                <padding><Insets top="5" /></padding>
-                                                <Button style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 0; -fx-cursor: hand; -fx-font-size: 11px;" text="❤ Mi piace" />
-                                                <Label style="-fx-text-fill: #64748b; -fx-font-size: 11px;" text="0" />
                                             </HBox>
                                         </VBox>
 

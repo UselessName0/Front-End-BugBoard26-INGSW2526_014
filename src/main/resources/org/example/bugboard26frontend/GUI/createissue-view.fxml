@@ -38,14 +38,6 @@
             <VBox spacing="5" HBox.hgrow="ALWAYS">
                 <Label styleClass="input-label" text="Tipo" />
                 <ComboBox fx:id="tipoCombo" maxWidth="Infinity" styleClass="combo-box">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Bug" />
-                            <String fx:value="Feature" />
-                            <String fx:value="Documentation" />
-                            <String fx:value="Question" />
-                        </FXCollections>
-                    </items>
                     <value>
                         <String fx:value="Bug" />
                     </value>
@@ -55,16 +47,6 @@
             <VBox spacing="5" HBox.hgrow="ALWAYS">
                 <Label styleClass="input-label" text="Priorità" />
                 <ComboBox fx:id="prioritaCombo" maxWidth="Infinity" styleClass="combo-box">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Bassa (Low)" />
-                            <String fx:value="Media (Medium)" />
-                            <String fx:value="Alta (High)" />
-                        </FXCollections>
-                    </items>
-                    <value>
-                        <String fx:value="Bassa (Low)" />
-                    </value>
                 </ComboBox>
             </VBox>
         </HBox>

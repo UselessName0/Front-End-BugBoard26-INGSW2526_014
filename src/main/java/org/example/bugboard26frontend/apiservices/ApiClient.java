@@ -1,6 +1,7 @@
 package org.example.bugboard26frontend.apiservices;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.bugboard26frontend.entita.Utente;
 
 import java.net.http.HttpClient;
 
@@ -23,6 +24,17 @@ public class ApiClient {
             apiClient = new ApiClient();
         }
         return apiClient;
+    }
+
+    public Utente getUtenteLoggato() {
+        Long userId = getCurrentUserId();
+        UtenteService userService = new UtenteService();
+        try {
+            return userService.getUserById(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public HttpClient getClient() {return client;}

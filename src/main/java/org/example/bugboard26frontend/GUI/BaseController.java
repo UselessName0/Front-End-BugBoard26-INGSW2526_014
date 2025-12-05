@@ -128,7 +128,7 @@ public abstract class BaseController {
             currentStage.setHeight(720);
             currentStage.centerOnScreen();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
