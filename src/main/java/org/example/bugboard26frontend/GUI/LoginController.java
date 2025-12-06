@@ -44,8 +44,18 @@ public class LoginController {
             System.out.println("Login effettuato con successo!");
 
             try {
-                Utente utenteLoggato = authService.getUtenteLoggato();
-                apriDashboard(utenteLoggato);
+                Utente utenteRicevuto = authService.getUtenteLoggato();
+
+                // === MODIFICA QUI ===
+                // Salviamo l'utente nella variabile STATICA del BaseController
+                if (utenteRicevuto != null) {
+                    BaseController.utenteLoggato = utenteRicevuto;
+                    System.out.println("Login: Utente salvato in sessione -> " + utenteRicevuto.getNome());
+                    apriDashboard();
+                } else {
+                    mostraErrore("Errore: Login riuscito ma dati utente vuoti.");
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
                 mostraErrore("Errore aprendo la dashboard: " + e.getMessage());
@@ -64,18 +74,12 @@ public class LoginController {
         new Thread(loginTask).start();
     }
 
-    // Metodo che permette l'apertura della dashboard
-    private void apriDashboard (Utente utenteLoggato) throws IOException {
+    // Metodo semplificato: non serve più passare argomenti
+    private void apriDashboard() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/dashboard-view.fxml"));
         Parent root = fxmlLoader.load();
-        DashboardController dashboardController = fxmlLoader.getController();
 
-        if (utenteLoggato != null) {
-            dashboardController.setUtenteLoggato(utenteLoggato);
-            System.out.println("Login: Utente passato alla Dashboard -> " + utenteLoggato.getNome());
-        } else {
-            System.out.println("Login: ERRORE! Utente è null al momento del login.");
-        }
+        // Non serve più settare l'utente nel controller, perché BaseController lo ha già statico
 
         Scene scene = new Scene(root);
         Stage dashboardStage = new Stage();
@@ -93,7 +97,6 @@ public class LoginController {
         loginStage.close();
     }
 
-    // Metodo che mostra errore nel caso di login non andato a buon fine
     private void mostraErrore(String messaggio) {
         errorLabel.setText(messaggio);
         errorLabel.setStyle("-fx-text-fill: #ef4444;");

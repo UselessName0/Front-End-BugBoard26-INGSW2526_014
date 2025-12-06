@@ -126,10 +126,8 @@ public class DashboardController extends BaseController{
         ButtonCerca.setOnMouseClicked(e -> {
             effettuaRicerca();
         });
-
         ButtonCerca.fire();
 
-        // Carichiamo i dati finti per ora
         caricaDatiIssue();
     }
 

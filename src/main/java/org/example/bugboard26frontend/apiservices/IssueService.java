@@ -79,6 +79,31 @@ public class IssueService {
         return sendRequestList(request);
     }
 
+    public List<Issue> getIssuesByUtente(Long idUtente, String testoRicerca, Stato stato, Tipo tipo, String ordinaPer, String direzione, int page, int size) throws Exception {
+        StringBuilder query = new StringBuilder("?");
+        query.append("page=").append(page);
+        query.append("&size=").append(size);
+
+        if (ordinaPer != null) query.append("&ordinaPer=").append(encode(ordinaPer));
+        if (direzione != null) query.append("&dir=").append(encode(direzione));
+        if (testoRicerca != null && !testoRicerca.isBlank()) {
+            query.append("&q=").append(encode(testoRicerca));
+        }
+        if (stato != null) {
+            query.append("&stato=").append(encode(stato.name()));
+        }
+        if (tipo != null) {
+            query.append("&tipo=").append(encode(tipo.name()));
+        }
+
+        String url = ISSUE_BASE_URL + "/utente/" + idUtente + query.toString();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
+        return sendRequestList(request);
+    }
+
     public int contaIssueCreateDaUtente(Long userId) throws Exception {
         String url = ISSUE_BASE_URL + "/countPerUtente?userId=" + userId;
 
@@ -165,8 +190,7 @@ public class IssueService {
     //                            METODI PRIVATI (HELPERS)
     // =================================================================================
 
-     //Gestisce l'invio della richiesta e la deserializzazione di un SINGOLO oggetto Issue.
-
+    //Gestisce l'invio della richiesta e la deserializzazione di un SINGOLO oggetto Issue.
     private Issue sendRequestSingle(HttpRequest request) throws Exception {
         HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -177,8 +201,8 @@ public class IssueService {
         }
     }
 
-     // Gestisce l'invio della richiesta e la deserializzazione di una lista di oggetti Issue.
-     // usa TypeReference per evitare il linkedhashmap crash.
+    // Gestisce l'invio della richiesta e la deserializzazione di una lista di oggetti Issue.
+    // usa TypeReference per evitare il linkedhashmap crash.
     private List<Issue> sendRequestList(HttpRequest request) throws Exception {
         HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
 
@@ -186,11 +210,15 @@ public class IssueService {
 
             JsonNode rootNode = api.getMapper().readTree(response.body());
 
-            if(rootNode.has("content")) {
+            // Gestione flessibile: se il backend torna una Page (Spring Boot), i dati sono dentro "content".
+            // Altrimenti, se torna una List diretta, il rootNode è già l'array.
+            if (rootNode.has("content")) {
                 JsonNode contentNode = rootNode.get("content");
-                return api.getMapper().convertValue(contentNode, new TypeReference<List<Issue>>() {});
+                return api.getMapper().convertValue(contentNode, new TypeReference<List<Issue>>() {
+                });
             } else {
-                return api.getMapper().convertValue(rootNode, new TypeReference<List<Issue>>() {});
+                return api.getMapper().convertValue(rootNode, new TypeReference<List<Issue>>() {
+                });
             }
 
         } else {

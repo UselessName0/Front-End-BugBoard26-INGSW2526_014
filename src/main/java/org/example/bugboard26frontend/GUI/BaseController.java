@@ -15,11 +15,11 @@ import java.io.IOException;
 
 public abstract class BaseController {
 
-    protected Utente utenteLoggato;
+    protected static Utente utenteLoggato;
     private final AuthService authService = new AuthService();
 
     public void setUtenteLoggato(Utente utente) {
-        this.utenteLoggato = utente;
+        BaseController.utenteLoggato = utente;
     }
 
     // --- METODO GENERICO PER CAMBIARE SCENA ---
@@ -28,14 +28,6 @@ public abstract class BaseController {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/" + fxmlFile));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
-
-            // Passaggio dati (Utente)
-            Object controller = fxmlLoader.getController();
-            if (controller instanceof BaseController && this.utenteLoggato != null) {
-                ((BaseController) controller).setUtenteLoggato(this.utenteLoggato);
-            }
-
-            // Impostazione scena
             stage.setScene(scene);
             stage.setTitle("BugBoard 26 - " + titolo);
 
@@ -89,9 +81,13 @@ public abstract class BaseController {
 
     public void effettuaLogout(Stage stage) {
         try {
+            // Resetta l'utente statico
+            BaseController.utenteLoggato = null;
+
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/login-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             authService.logout();
+
             stage.setMinWidth(0);
             stage.setMinHeight(0);
             stage.setScene(scene);
@@ -113,16 +109,13 @@ public abstract class BaseController {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("GUI/issue-view.fxml"));
             Parent root = fxmlLoader.load();
 
-            // Passa i dati
             IssueController controller = fxmlLoader.getController();
-            controller.setUtenteLoggato(this.utenteLoggato);
+            // Qui non serve passare l'utente (è statico), ma passiamo i dati della issue
             controller.setDatiIssue(issueSelezionata);
 
             Scene scene = new Scene(root);
             currentStage.setScene(scene);
             currentStage.setTitle("Dettaglio Issue #" + issueSelezionata.getId());
-
-            // Reset proprietà standard
             currentStage.setResizable(true);
             currentStage.setWidth(1280);
             currentStage.setHeight(720);

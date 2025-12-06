@@ -44,7 +44,6 @@
                                     </Circle>
 
                                 </VBox>
-                                <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 11px;" text="on: 05/10/25" textFill="WHITE" />
                             </HBox>
 
                             <Label fx:id="labelTitolo" styleClass="issue-title" text="Il sistema genera un errore codice #501250" wrapText="true" />

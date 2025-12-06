@@ -14,18 +14,14 @@
             xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.example.bugboard26frontend.GUI.PersonalIssueController">
 
-    <!-- TOP BAR-->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="15" styleClass="top-bar">
             <padding><Insets bottom="10" left="20" right="20" top="10" /></padding>
 
-            <!-- Logo -->
             <Label styleClass="logo-text" text="BugBoard 26" />
 
-            <!-- Filtri a Tendina -->
             <VBox spacing="2">
-                <!-- FILTRO TIPO -->
-                <ComboBox prefWidth="120" promptText="Filtra per tipo" styleClass="filter-combo">
+                <ComboBox fx:id="tipoComboBox" prefWidth="120" promptText="Filtra per tipo" styleClass="filter-combo">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Bug" />
@@ -35,8 +31,7 @@
                     </items>
                 </ComboBox>
 
-                <!-- FILTRO STATO -->
-                <ComboBox prefWidth="120" promptText="Filtra per stato" styleClass="filter-combo">
+                <ComboBox fx:id="statoComboBox" prefWidth="120" promptText="Filtra per stato" styleClass="filter-combo">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="TO DO" />
@@ -47,7 +42,6 @@
                 </ComboBox>
             </VBox>
 
-            <!-- COMBOBOX RICERCA -->
             <ComboBox promptText="Issues" styleClass="search-combo">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
@@ -57,19 +51,13 @@
                 </items>
             </ComboBox>
 
-            <!-- Barra Ricerca -->
             <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="411.0" styleClass="search-box-container">
-
-                <TextField promptText="Cerca..." styleClass="search-field" HBox.hgrow="ALWAYS" />
-                <Button styleClass="search-button" text="Cerca" />
+                <TextField fx:id="searchField" promptText="Cerca..." styleClass="search-field" HBox.hgrow="ALWAYS" />
+                <Button fx:id="ButtonCerca" styleClass="search-button" text="Cerca" />
             </HBox>
 
             <Region HBox.hgrow="ALWAYS" />
 
-<!--            Bottone Create -->
-<!--            <Button onAction="#apriCreaIssue" styleClass="btn-create" text="+ Crea Issue" /> -->
-
-            <!-- Avatar Utente lato dx -->
             <Circle fx:id="avatarCircle" radius="20.0" onMouseClicked="#apriMenuUtente">
                 <fill>
                     <ImagePattern>
@@ -88,7 +76,6 @@
         </HBox>
     </top>
 
-    <!-- SIDEBAR -->
     <left>
         <VBox spacing="0" styleClass="sidebar">
             <padding><Insets top="20" /></padding>
@@ -105,7 +92,6 @@
         </VBox>
     </left>
 
-    <!-- CENTRO (TABELLA) -->
     <center>
         <VBox spacing="10" styleClass="content-area">
             <padding><Insets bottom="20" left="20" right="20" top="20" /></padding>
