@@ -40,7 +40,7 @@ public class DashboardController extends BaseController{
     @FXML private TableColumn<Issue, String> colTipo;
     @FXML private TableColumn<Issue, String> colData;
     @FXML private Circle avatarCircle;
-
+    @FXML private Button btnCreaUtente;
 
     private ContextMenu menuUtente;
     private final IssueService issueService = new IssueService();
@@ -48,6 +48,11 @@ public class DashboardController extends BaseController{
     // Metodo per l'inizializzazione della tabella centrale (da modificare ovviamente)
     @FXML
     public void initialize() throws Exception {
+        boolean isAdmin = checkifAdmin();
+        if(!isAdmin){
+            btnCreaUtente.setVisible(false);
+            btnCreaUtente.setManaged(false);
+        }
         statoComboBox.getItems().setAll(Stato.values());
         tipoComboBox.getItems().setAll(Tipo.values());
         colTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
@@ -188,7 +193,4 @@ public class DashboardController extends BaseController{
         }
         event.consume();
     }
-
-
-
 }

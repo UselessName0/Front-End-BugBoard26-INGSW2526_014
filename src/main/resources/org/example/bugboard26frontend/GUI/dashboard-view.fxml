@@ -80,7 +80,7 @@
 
             <Button maxWidth="Infinity" styleClass="sidebar-btn, active" text="≡  Lista Issue" />
             <Button onAction="#apriLeMieIssue" prefHeight="40.0" prefWidth="200.0" styleClass="sidebar-btn" text="≡ Le mie Issue" />
-            <Button onAction="#apriCreaNuovoUtente" prefHeight="40.0" prefWidth="200.0" styleClass="sidebar-btn" text="👤 Crea Utente" />
+            <Button fx:id="btnCreaUtente" onAction="#apriCreaNuovoUtente" prefHeight="40.0" prefWidth="200.0" styleClass="sidebar-btn" text="👤 Crea Utente" />
 
             <Region VBox.vgrow="ALWAYS" />
             <Region minWidth="200" />

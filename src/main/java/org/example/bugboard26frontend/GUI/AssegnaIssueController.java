@@ -1,5 +1,7 @@
 package org.example.bugboard26frontend.GUI;
 
+import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
@@ -9,8 +11,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.example.bugboard26frontend.apiservices.IssueService;
+import org.example.bugboard26frontend.apiservices.UtenteService;
 import org.example.bugboard26frontend.entita.Issue;
 import org.example.bugboard26frontend.entita.Utente;
+
+import java.util.List;
 
 public class AssegnaIssueController extends BaseController {
 
@@ -23,18 +29,47 @@ public class AssegnaIssueController extends BaseController {
 
     private Issue issueDaAssegnare;
     private final ContextMenu menuUtente = new ContextMenu();
+    
+    private final UtenteService utenteService = new UtenteService();
+    private final IssueService issueService = new IssueService();
 
     public void initialize() {
-        setupMenuUtente();
         configuraTabella();
+        caricaUtentiDisponibili();
+    }
+    
+    private void caricaUtentiDisponibili() {
+        tabellaUtenti.setPlaceholder(new Label("Caricamento utenti in corso..."));
+        
+        Task<List<Utente>> taskCaricamento = new Task<>() {
+            @Override
+            protected List<Utente> call() throws Exception {
+                return utenteService.getAllUtenti();
+            }
+        };
+        
+        taskCaricamento.setOnSucceeded(event -> {
+            List<Utente> utenti = taskCaricamento.getValue();
+            if (utenti == null || utenti.isEmpty()) {
+                tabellaUtenti.setPlaceholder(new Label("Nessun utente trovato nel sistema."));
+            } else {
+                tabellaUtenti.setItems(FXCollections.observableArrayList(utenti));
+            }
+        });
+        
+        taskCaricamento.setOnFailed(event -> {
+            Throwable e = taskCaricamento.getException();
+            e.printStackTrace();
+            mostraAlert(Alert.AlertType.ERROR, "Errore API", "Impossibile caricare la lista utenti.");
+        });
+
+        new Thread(taskCaricamento).start();
     }
 
     private void configuraTabella() {
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colCognome.setCellValueFactory(new PropertyValueFactory<>("cognome"));
-        colRuolo.setCellValueFactory(new PropertyValueFactory<>("ruolo"));
 
-        // LOGICA DEL BOTTONE "ASSEGNA"
         Callback<TableColumn<Utente, Void>, TableCell<Utente, Void>> cellFactory = new Callback<>() {
             @Override
             public TableCell<Utente, Void> call(final TableColumn<Utente, Void> param) {
@@ -70,64 +105,50 @@ public class AssegnaIssueController extends BaseController {
             mostraAlert(Alert.AlertType.ERROR, "Errore", "Nessuna issue selezionata.");
             return;
         }
-
-        // TODO: Chiamata al Backend per salvare
-        System.out.println("Assegno issue " + issueDaAssegnare.getId() + " a " + utente.getCognome());
-
-        mostraAlert(Alert.AlertType.INFORMATION, "Assegnata!",
-                "Issue assegnata a " + utente.getNome() + " " + utente.getCognome());
-
-        // Torniamo alla dashboard
-        Stage stage = (Stage) tabellaUtenti.getScene().getWindow();
-        apriDashboard(stage);
-    }
-
-    public void setIssueDaAssegnare(Issue issue) {
-        this.issueDaAssegnare = issue;
-    }
-
-    // --- MENU UTENTE ---
-    private void setupMenuUtente() {
-        String nome = (utenteLoggato != null) ? utenteLoggato.getNome() : "User";
-        MenuItem voceProfilo = new MenuItem("Ciao " + nome);
-        voceProfilo.setDisable(true);
-        voceProfilo.getStyleClass().add("menu-titolo");
-
-        MenuItem voceLogout = new MenuItem("Logout");
-        voceLogout.setOnAction((ActionEvent event) -> {
-            if (avatarCircle.getScene() != null) {
-                Stage stage = (Stage) avatarCircle.getScene().getWindow();
-                effettuaLogout(stage);
+        
+        Task<Boolean> taskAssegnazione = new Task<>() {
+            @Override
+            protected Boolean call() throws Exception {
+                issueService.settaAssegnatario(issueDaAssegnare.getId(), utente.getId());
+                return true;
             }
+        };
+        
+        taskAssegnazione.setOnSucceeded(event -> {
+            mostraAlert(Alert.AlertType.INFORMATION, "Successo",
+                    "Issue assegnata a " + utente.getNome() + " " + utente.getCognome());
+            Stage stage = (Stage) tabellaUtenti.getScene().getWindow();
+            apriDashboard(stage);
+        });
+        
+        taskAssegnazione.setOnFailed(event -> {
+            Throwable e = taskAssegnazione.getException();
+            e.printStackTrace();
+            mostraAlert(Alert.AlertType.ERROR, "Errore Assegnazione",
+                    "Impossibile assegnare l'issue: " + e.getMessage());
         });
 
-        menuUtente.getItems().addAll(voceProfilo, new SeparatorMenuItem(), voceLogout);
-        menuUtente.getStyleClass().add("mio-menu-utente");
-        menuUtente.setOnShowing(e -> {
-            if (menuUtente.getSkin() != null) {
-                menuUtente.getSkin().getNode().getScene().getStylesheets().add(
-                        getClass().getResource("StyleGeneric.css").toExternalForm()
-                );
-            }
-        });
+        new Thread(taskAssegnazione).start();
     }
 
+    // --- MENU UTENTE & ALERT ---
     @FXML
     void apriMenuUtente(MouseEvent event) {
-        if (menuUtente.isShowing()) {
-            menuUtente.hide();
-        } else {
-            menuUtente.show(avatarCircle, Side.BOTTOM, -100, 10);
-        }
+        if (menuUtente.isShowing()) menuUtente.hide();
+        else menuUtente.show(avatarCircle, Side.BOTTOM, -100, 10);
         event.consume();
     }
 
-    // -- GESTIONE ALLERT --
     private void mostraAlert(Alert.AlertType tipo, String titolo, String messaggio) {
         Alert alert = new Alert(tipo);
         alert.setTitle("BugBoard 26 - " + titolo);
         alert.setHeaderText(null);
         alert.setContentText(messaggio);
         alert.showAndWait();
+    }
+
+    public void setIssueDaAssegnare(Issue issue) {
+        this.issueDaAssegnare = issue;
+        System.out.println("AssegnaIssueController: Ho ricevuto l'issue ID " + issue.getId());
     }
 }

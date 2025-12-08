@@ -1,9 +1,13 @@
 package org.example.bugboard26frontend.GUI;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.bugboard26frontend.apiservices.CommentoService;
@@ -28,13 +32,26 @@ public class IssueController extends BaseController {
     @FXML private Label badgePriorita;
     @FXML private Label badgeTipo;
     @FXML private TextArea textAreaCommento;
+    @FXML private Button btnCreaUtente;
+    @FXML private Button btnAssegnaIssue;
+    @FXML private Button btnArchiviaIssue;
 
 
     private CommentoService commentoService = new CommentoService();
     private Issue issueCorrente;
+    private Issue issueDaAssegnare;
 
 
     public void setDatiIssue(Issue issue) throws Exception {
+        boolean isAdmin = checkifAdmin();
+        if(!isAdmin){
+            btnCreaUtente.setVisible(false);
+            btnCreaUtente.setManaged(false);
+            btnAssegnaIssue.setVisible(false);
+            btnAssegnaIssue.setManaged(false);
+            btnArchiviaIssue.setVisible(false);
+            btnArchiviaIssue.setManaged(false);
+        }
         this.issueCorrente = issue;
         if (issue != null) {
             // 1. Popola Titolo
@@ -103,11 +120,32 @@ public class IssueController extends BaseController {
 
     @FXML
     private void apriAssegnazioneIssue(ActionEvent event) {
-        try{
-            cambiaScena(event, "assegnaissue-view.fxml", "Assegna Issue");
+        try {
+            // 1. Carichiamo il loader manualmente invece di usare cambiaScena()
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("assegnaissue-view.fxml"));
+            Parent root = loader.load();
+
+            // 2. Otteniamo il controller della nuova pagina
+            AssegnaIssueController controller = loader.getController();
+
+            // 3. PASSAGGIO FONDAMENTALE: Passiamo l'issue corrente al nuovo controller
+            if (this.issueCorrente != null) {
+                controller.setIssueDaAssegnare(this.issueCorrente);
+                System.out.println("Sto passando l'issue ID: " + this.issueCorrente.getId());
+            } else {
+                System.out.println("Attenzione: issueCorrente è null!");
+            }
+
+            // 4. Mostriamo la scena (codice simile a cambiaScena)
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("BugBoard 26 - Assegna Issue");
+            stage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Errore caricamento vista: " + e.getMessage());
+            System.out.println("Errore caricamento vista assegnazione: " + e.getMessage());
         }
     }
 
@@ -179,7 +217,4 @@ public class IssueController extends BaseController {
             System.out.println("Errore durante l'inserimento del commento: " + e.getMessage());
         }
     }
-
-
-
 }

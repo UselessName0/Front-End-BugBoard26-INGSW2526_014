@@ -97,8 +97,8 @@
                             <Separator style="-fx-opacity: 0.1; -fx-background-color: white;" />
 
                             <VBox spacing="10">
-                                <Button maxWidth="Infinity" onAction="#apriAssegnazioneIssue" styleClass="btn-blue" text="Assegna" />
-                                <Button maxWidth="Infinity" styleClass="btn-outline-red" text="Archivia Issue" />
+                                <Button fx:id="btnAssegnaIssue" maxWidth="Infinity" onAction="#apriAssegnazioneIssue" styleClass="btn-blue" text="Assegna" />
+                                <Button fx:id="btnArchiviaIssue" maxWidth="Infinity" styleClass="btn-outline-red" text="Archivia Issue" />
                             </VBox>
 
                         </VBox>
@@ -115,7 +115,7 @@
 
             <Button maxWidth="Infinity" onAction="#apriDashboard" styleClass="sidebar-btn, active" text="≡  Lista Issue" />
             <Button maxWidth="Infinity" onAction="#apriLeMieIssue" styleClass="sidebar-btn" text="≡ Le mie Issue" />
-            <Button onAction="#apriCreaNuovoUtente" prefHeight="40.0" prefWidth="200.0" styleClass="sidebar-btn" text="👤 Crea Utente" />
+            <Button fx:id="btnCreaUtente" onAction="#apriCreaNuovoUtente" prefHeight="40.0" prefWidth="200.0" styleClass="sidebar-btn" text="👤 Crea Utente" />
 
             <Region VBox.vgrow="ALWAYS" />
             <Region minWidth="200" />

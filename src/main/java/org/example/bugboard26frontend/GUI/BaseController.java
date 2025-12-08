@@ -125,4 +125,9 @@ public abstract class BaseController {
             e.printStackTrace();
         }
     }
+
+    protected boolean checkifAdmin(){
+        if(utenteLoggato == null) return false;
+        return utenteLoggato.isAdmin();
+    }
 }
