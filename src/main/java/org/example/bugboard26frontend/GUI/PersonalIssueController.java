@@ -11,8 +11,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.SVGPath;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.example.bugboard26frontend.apiservices.IssueService;
 import org.example.bugboard26frontend.entita.Issue;
 import org.example.bugboard26frontend.enums.Stato;
@@ -48,6 +53,75 @@ public class PersonalIssueController extends BaseController {
         statoComboBox.getItems().setAll(Stato.values());
         tipoComboBox.getItems().setAll(Tipo.values());
         colTitolo.setCellValueFactory(new PropertyValueFactory<>("titolo"));
+        colTitolo.setCellFactory(column -> new TableCell<Issue, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                // Pulizia se la cella è vuota
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    return;
+                }
+
+                // 1. Setup del layout
+                HBox hbox = new HBox(10);
+                hbox.setAlignment(Pos.CENTER_LEFT);
+
+                // 2. Creazione del Titolo (CORREZIONE COLORE)
+                Label titleLabel = new Label(item);
+                // Forza il testo bianco per contrastare lo sfondo scuro
+                titleLabel.setStyle("-fx-text-fill: white; -fx-font-weight: normal;");
+                hbox.getChildren().add(titleLabel);
+
+                Region spacer = new Region();
+                HBox.setHgrow(spacer, Priority.ALWAYS);
+                hbox.getChildren().add(spacer);
+
+                // 3. Recupero sicuro della Issue
+                Issue currentIssue = getTableRow().getItem();
+                // Fallback di sicurezza se la riga non è ancora renderizzata
+                if (currentIssue == null && getIndex() >= 0 && getIndex() < getTableView().getItems().size()) {
+                    currentIssue = getTableView().getItems().get(getIndex());
+                }
+
+                // 4. Logica della Bandierina
+                if (currentIssue != null && currentIssue.getAssegnatario() != null && utenteLoggato != null) {
+
+                    Long idAssegnatario = currentIssue.getAssegnatario().getId();
+                    Long idUtenteLoggato = utenteLoggato.getId();
+                    // Se vuoi escludere le tue stesse issue (opzionale), scommenta le righe relative all'autore qui sotto:
+                    Long idAutore = (currentIssue.getUtente() != null) ? currentIssue.getUtente().getId() : -1L;
+
+                    // La bandierina appare se: L'assegnatario sei tu
+                    if (idAssegnatario.equals(idUtenteLoggato)) {
+
+                        // --- OPZIONALE: Scommenta questo IF se vuoi nascondere la bandiera sulle issue create da te ---
+                        if (!idAssegnatario.equals(idAutore)) {
+
+                            SVGPath pinIcon = new SVGPath();
+                            pinIcon.setContent("M16 12V4h1V2H7v2h1v8l-2 2v2h5v6h2v-6h5v-2l-2-2z");
+                            pinIcon.setFill(Color.RED);
+                            pinIcon.setScaleX(0.8);
+                            pinIcon.setScaleY(0.8);
+
+                        Label flagContainer = new Label();
+                        flagContainer.setGraphic(pinIcon);
+
+                        Tooltip tooltip = new Tooltip("Assegnata a te");
+                        flagContainer.setTooltip(tooltip);
+
+                        hbox.getChildren().add(flagContainer);
+
+                        }
+                    }
+                }
+
+                setGraphic(hbox);
+                setText(null);
+            }
+        });
         colPriorita.setCellValueFactory(new PropertyValueFactory<>("priorita"));
         colStato.setCellValueFactory(new PropertyValueFactory<>("stato"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
@@ -116,7 +190,7 @@ public class PersonalIssueController extends BaseController {
         });
         if (utenteLoggato != null) {
             System.out.println("Utente trovato (" + utenteLoggato.getNome() + "), avvio ricerca...");
-            ButtonCerca.fire(); // Ora questo funzionerà e lancerà la ricerca!
+            ButtonCerca.fire();
         } else {
             System.err.println("Errore: Nessun utente loggato in BaseController.");
             tabellaIssue.setPlaceholder(new Label("Effettua il login per vedere le issue."));
