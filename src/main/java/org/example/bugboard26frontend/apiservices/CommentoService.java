@@ -159,5 +159,22 @@ public class CommentoService {
         }
     }
 
+    public void toggleLike(Long commentoId) throws Exception {
+        String url = api.getBaseUrl() + "/commenti/" + commentoId + "/miPiace";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + api.getAuthToken())
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        HttpResponse<String> response = api.getClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            throw new Exception("Errore nel toggle del like per il commento con ID " + commentoId + ": " + response.statusCode());
+        }
+    }
+
 
 }

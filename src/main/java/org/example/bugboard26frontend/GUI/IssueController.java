@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.example.bugboard26frontend.apiservices.ApiClient;
 import org.example.bugboard26frontend.apiservices.CommentoService;
 import org.example.bugboard26frontend.entita.Commento;
 import org.example.bugboard26frontend.entita.Issue;
@@ -40,7 +41,7 @@ public class IssueController extends BaseController {
     private CommentoService commentoService = new CommentoService();
     private Issue issueCorrente;
     private Issue issueDaAssegnare;
-
+    private final ApiClient apiClient = ApiClient.getApiClient();
 
     public void setDatiIssue(Issue issue) throws Exception {
         boolean isAdmin = checkifAdmin();
@@ -158,6 +159,7 @@ public class IssueController extends BaseController {
             cardCommento.setSpacing(5);
             cardCommento.getStyleClass().add("comment-box");
 
+            // --- 1. GESTIONE AUTORE ---
             String testoAutore;
             if (commento.getUtente() != null) {
                 testoAutore = commento.getUtente().getNome() + " " + commento.getUtente().getCognome() + ":";
@@ -167,30 +169,66 @@ public class IssueController extends BaseController {
             Label autoreLabel = new Label(testoAutore);
             autoreLabel.setStyle("-fx-text-fill: #3b82f6; -fx-font-weight: bold;");
 
+            // --- 2. GESTIONE CONTENUTO ---
             Label contenutoLabel = new Label(commento.getContenuto());
             contenutoLabel.setStyle("-fx-text-fill: #cbd5e1;");
             contenutoLabel.setWrapText(true);
 
+            // --- 3. GESTIONE LIKE ---
             HBox likeBox = new HBox();
             likeBox.setAlignment(Pos.CENTER_LEFT);
             likeBox.setSpacing(8);
             likeBox.setPadding(new Insets(5, 0, 0, 0));
 
+            // Creiamo il bottone UNA VOLTA sola
             Button btnLike = new Button("❤ Mi piace");
-            btnLike.setStyle("-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 0; -fx-cursor: hand; -fx-font-size: 11px;");
 
+            // Creiamo la label col numero
+
+            int numerolike = commento.getNumeroMiPiace(); // O commento.getNumeroMiPiace() controlla il nome esatto nel getter
+            Label lblNumeroLike = new Label(String.valueOf(numerolike));
+            lblNumeroLike.setStyle("-fx-text-fill: #64748b; -fx-font-size: 11px;");
+
+            // Logica per controllare se HO messo like
+            boolean hoMessoLike = false;
+
+            // Controllo di sicurezza: verifichiamo che l'utente sia loggato e la lista miPiace non sia null
+            if (apiClient.getUtenteLoggato() != null && commento.getMiPiace() != null) {
+                Long mioId = apiClient.getUtenteLoggato().getId();
+
+                for(Utente u : commento.getMiPiace()) {
+                    if(u.getId().equals(mioId)) {
+                        hoMessoLike = true;
+                        break;
+                    }
+                }
+            }
+
+            // Applichiamo lo stile (Rosso se like attivo, Grigio se no)
+            if(hoMessoLike) {
+                btnLike.setStyle("-fx-background-color: transparent; -fx-text-fill: #ef4444; -fx-padding: 0; -fx-cursor: hand; -fx-font-size: 11px; -fx-font-weight: bold;");
+            } else {
+                btnLike.setStyle("-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-padding: 0; -fx-cursor: hand; -fx-font-size: 11px;");
+            }
+
+            // Assegniamo l'azione UNA VOLTA sola
             btnLike.setOnAction(e -> {
-                if (commento.getUtente() != null) {
-                    System.out.println("Hai messo like al commento di " + commento.getUtente().getCognome());
-                } else {
-                    System.out.println("Hai messo like a un commento anonimo");
+                System.out.println("Click like rilevato");
+                try {
+                    // Chiamata al service
+                    commentoService.toggleLike(commento.getId());
+                    // Ricarichiamo per aggiornare numero e colore
+                    caricaCommenti();
+                } catch(Exception ex) {
+                    ex.printStackTrace();
+                    System.out.println("Errore nel mettere/togliere like: " + ex.getMessage());
                 }
             });
 
-            Label lblNumeroLike = new Label("0");
-            lblNumeroLike.setStyle("-fx-text-fill: #64748b; -fx-font-size: 11px;");
+            // Aggiungiamo bottone e numero al box orizzontale
             likeBox.getChildren().addAll(btnLike, lblNumeroLike);
 
+            // Aggiungiamo tutto alla card
             cardCommento.getChildren().addAll(autoreLabel, contenutoLabel, likeBox);
             commentsContainer.getChildren().add(cardCommento);
         }

@@ -39,7 +39,7 @@
                 <Label styleClass="input-label" text="Tipo" />
                 <ComboBox fx:id="tipoCombo" maxWidth="Infinity" styleClass="combo-box">
                     <value>
-                        <String fx:value="Bug" />
+                        <String fx:value="BUG" />
                     </value>
                 </ComboBox>
             </VBox>
