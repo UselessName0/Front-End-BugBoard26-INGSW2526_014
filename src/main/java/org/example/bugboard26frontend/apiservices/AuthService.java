@@ -2,7 +2,9 @@ package org.example.bugboard26frontend.apiservices;
 
 import org.example.bugboard26frontend.entita.LoginResponse;
 import org.example.bugboard26frontend.entita.Utente;
+import org.example.bugboard26frontend.exceptions.InvalidCredentialsException;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -44,13 +46,13 @@ public class AuthService {
             }
             return true;
         } else if (response.statusCode() == 401) {
-            throw new Exception("Credenziali non valide.");
+            throw new InvalidCredentialsException("Credenziali non valide.");
         
         } else if (response.statusCode() == 500) {
-            throw new Exception("Credenziali non valide.");
+            throw new IOException("Credenziali non valide.");
             
         } else {
-            throw new Exception("Errore durante il login: " + response.statusCode());
+            throw new IOException("Errore durante il login: " + response.statusCode());
         }
     }
 
@@ -65,7 +67,7 @@ public class AuthService {
         }
     }
 
-    public void logout() throws Exception {
+    public void logout() throws IOException, InterruptedException {
         String token = api.getAuthToken();
 
         if (token == null || token.isEmpty()) {
@@ -89,7 +91,7 @@ public class AuthService {
         if(response.statusCode() == 200) {
             System.out.println("[Chiamata API] Logout effettuato con successo.");
         } else {
-            throw new RuntimeException("Errore durante il logout: " + response.statusCode());
+            throw new IOException("Errore durante il logout: " + response.statusCode());
         }
     }
 }

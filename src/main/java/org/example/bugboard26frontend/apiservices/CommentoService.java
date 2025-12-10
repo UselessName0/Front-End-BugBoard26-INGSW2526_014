@@ -10,14 +10,18 @@ import java.util.List;
 
 public class CommentoService {
 
-    public ApiClient api = ApiClient.getApiClient();
+    public static final String APPLICATION_JSON = "application/json";
+    public static final String CONTENT_TYPE = "Content-Type";
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER = "Bearer ";
+    private ApiClient api = ApiClient.getApiClient();
 
     public List<Commento> getCommentiByIssueId(Long issueId) throws Exception {
         String url = api.getBaseUrl() + "/commenti/Issue/" + issueId;
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("Content-Type", "application/json")
+                .header(CONTENT_TYPE, APPLICATION_JSON)
                 .GET()
                 .build();
 
@@ -39,8 +43,8 @@ public class CommentoService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + api.getAuthToken())
+                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .header(AUTHORIZATION, BEARER + api.getAuthToken())
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
 
@@ -62,8 +66,8 @@ public class CommentoService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer" + api.getAuthToken())
+                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .header(AUTHORIZATION, "Bearer" + api.getAuthToken())
                 .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
 
@@ -83,8 +87,8 @@ public class CommentoService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + api.getAuthToken())
+                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .header(AUTHORIZATION, BEARER + api.getAuthToken())
                 .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
 
@@ -106,8 +110,8 @@ public class CommentoService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + api.getAuthToken())
+                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .header(AUTHORIZATION, BEARER + api.getAuthToken())
                 .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
                 .build();
 
@@ -127,7 +131,7 @@ public class CommentoService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("Content-Type", "application/json")
+                .header(CONTENT_TYPE, APPLICATION_JSON)
                 .GET()
                 .build();
 
@@ -147,8 +151,8 @@ public class CommentoService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + api.getAuthToken())
+                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .header(AUTHORIZATION, BEARER + api.getAuthToken())
                 .DELETE()
                 .build();
 
@@ -164,8 +168,8 @@ public class CommentoService {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + api.getAuthToken())
+                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .header(AUTHORIZATION, BEARER + api.getAuthToken())
                 .POST(HttpRequest.BodyPublishers.noBody())
                 .build();
 
