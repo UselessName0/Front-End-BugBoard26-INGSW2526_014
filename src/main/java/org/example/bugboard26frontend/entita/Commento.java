@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashSet;
 import java.util.Set;
 
-@JsonIgnoreProperties(ignoreUnknown = true) // <--- FONDAMENTALE: Se il backend manda campi extra, non crasha!
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Commento {
 
     //ATTRIBUTI
@@ -16,7 +16,6 @@ public class Commento {
     private String contenuto;
     private Set<Utente> miPiace = new HashSet<>();
 
-    // CORREZIONE QUI: Ho messo la P maiuscola per combaciare col Backend
     @JsonProperty("numeroMiPiace")
     private int numeroMiPiace;
 
@@ -61,12 +60,11 @@ public class Commento {
 
     public void setMiPiace(Set<Utente> miPiace) { this.miPiace = miPiace; }
 
-    // CORREZIONE GETTER (P maiuscola)
+
     public int getNumeroMiPiace() {
         return numeroMiPiace;
     }
 
-    // CORREZIONE SETTER (P maiuscola)
     public void setNumeroMiPiace(int numeroMiPiace) {
         this.numeroMiPiace = numeroMiPiace;
     }
